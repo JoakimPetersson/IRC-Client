@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.LinkedBlockingQueue;
 
+
 public class ConnectionHandler implements Runnable {
 	private Socket server;
 	private OutputStream out;
@@ -36,7 +37,7 @@ public class ConnectionHandler implements Runnable {
 		try {
 				while(true) {
 				if(!messageQueue.isEmpty()) {
-					System.out.print(messageQueue.take().content);
+					System.out.println(messageQueue.take().content);
 				}
 			}
 			

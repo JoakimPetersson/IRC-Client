@@ -13,12 +13,18 @@ public class ServerListener extends Thread implements Runnable {
 	
 	public void run() {
 		
-		Message newMessage = new Message();
-		newMessage.content = "Test test test";
-		newMessage.user = "Test Testsson";
-		
 		for(int i = 0; i < 50; i++) {
+			Message newMessage = new Message();
+			newMessage.user = "Test Testsson";
+			newMessage.content = i + " Test test test";
+			
 			messageQueue.add(newMessage);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
