@@ -4,13 +4,16 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.concurrent.LinkedBlockingQueue;
 
-public abstract class ConnectionHandler implements Runnable {
+public class ConnectionHandler implements Runnable {
 	private Socket server;
 	private OutputStream out;
 	private ServerInfo info;
 	
-	ConnectionHandler(String serverName, int port){
+	LinkedBlockingQueue<Message> messageQueue = new LinkedBlockingQueue<Message>();
+	
+	public ConnectionHandler(String serverName, int port){
 		try {
 			server = new Socket(serverName, port);
 			out = server.getOutputStream();
@@ -22,6 +25,25 @@ public abstract class ConnectionHandler implements Runnable {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void run() {
+		Thread listener = new Thread(new ServerListener(server, messageQueue));
+		listener.start();
+	}
+	
+	public void readMessage() {
+		try {
+				while(true) {
+				if(!messageQueue.isEmpty()) {
+					System.out.print(messageQueue.take().content);
+				}
+			}
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	void sendMessage(String message) {

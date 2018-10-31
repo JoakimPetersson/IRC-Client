@@ -6,6 +6,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import network.ConnectionHandler;
+
 class NetworkTest {
 
 	@BeforeEach
@@ -18,6 +20,12 @@ class NetworkTest {
 
 	@Test
 	void test() {
+		
+		ConnectionHandler handler = new ConnectionHandler("test", 1111);
+		
+		handler.run();
+		handler.readMessage();
+		
 		fail("Not yet implemented");
 	}
 
