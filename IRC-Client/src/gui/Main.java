@@ -19,8 +19,7 @@ import javafx.stage.Stage;
 	@Override
 	public void start (Stage stage) throws Exception {
 		
-		GridPane grid = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));	
-		
+		GridPane grid = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));		
 		Scene scene = new Scene(grid);	
 		stage.setScene(scene);
 		stage.show();		
