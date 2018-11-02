@@ -1,17 +1,20 @@
 package gui;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class AddServerWindowController {
+public class AddServerWindowController implements Initializable {
 	
 	/**
 	 * Properties
@@ -23,7 +26,17 @@ public class AddServerWindowController {
 		private Button addServerCancel;
 
 	@FXML
-    	private Button addServerOk; 	
+    	private Button addServerOk; 
+	
+		private LoginWindowController WindowLogin;
+		
+		public LoginWindowController getWindowLogin() {
+			return WindowLogin;
+		}
+
+		public void setWindowLogin(LoginWindowController lastWindow) {
+			WindowLogin = lastWindow;
+		}
 	
 	/**
 	 * Events
@@ -31,8 +44,7 @@ public class AddServerWindowController {
 	
 	@FXML
 	   void addServerOk_Click(ActionEvent event) {
-		LoginWindowController loginWindow = new LoginWindowController();
-	    loginWindow.makeBranch(addServerName.getText().toString(), loginWindow.serverRoot);
+	    getWindowLogin().makeBranch(addServerName.getText().toString(), getWindowLogin().serverRoot);
 	    System.out.println("asljdjals");
 	}
 	
@@ -46,7 +58,13 @@ public class AddServerWindowController {
 	 * Methods
 	 */
 	
-	public void StartAddserverScene() {
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		
+	}
+	
+	public void StartAddserverScene(Class lastWindow) {
+		setWindowLogin(lastWindow);
 		GridPane grid;
 		try {
 			grid = FXMLLoader.load(getClass().getResource("AddServerWindow.fxml"));		
@@ -57,6 +75,6 @@ public class AddServerWindowController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
-	}
+	}	
 
 }

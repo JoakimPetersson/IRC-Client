@@ -38,7 +38,8 @@ public class LoginWindowController implements Initializable {
 	 @FXML
 	    private Button addServerBtn;
 	 
-	 public TreeItem<String> serverRoot = new TreeItem<String>("asdas");
+	 public TreeItem<String> serverRoot = new TreeItem<String>("asdas"); 
+	 
 /**
  * Events
  */	 
@@ -50,7 +51,7 @@ public class LoginWindowController implements Initializable {
 	@FXML
     void addServerBtn_Click(ActionEvent event) {
 		AddServerWindowController addServer = new AddServerWindowController();
-		addServer.StartAddserverScene();
+		addServer.StartAddserverScene(ref this);
     }	
 	
 	@FXML    
@@ -68,8 +69,7 @@ public class LoginWindowController implements Initializable {
 		stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	
-		
+		}		
 	}
 	
 	private void createTree() {		
@@ -88,7 +88,7 @@ public class LoginWindowController implements Initializable {
 		server = makeBranch("Server", mainRoot);
 		placeHolderNetwork = makeBranch("Placeholder server", serverRoot);
 		euServer = makeBranch("EU server (placeholder)", placeHolderNetwork); 
-		usServer = makeBranch("US server (Placeholder", placeHolderNetwork);
+		usServer = makeBranch("US server (Placeholder)", placeHolderNetwork);
 		
 		
 	}	
@@ -111,6 +111,8 @@ public class LoginWindowController implements Initializable {
 		parent.getChildren().add(item);
 		return item;
 	}
+
+	
 
 }
 
