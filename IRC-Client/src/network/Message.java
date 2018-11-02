@@ -1,6 +1,12 @@
 package network;
 
+enum MessageType{
+	NOTICE, PRIVMSG, PING, CODE
+}
+
 public class Message {
-	String user;
-	String content;
+	public String user;
+	public String content;
+	public MessageType type;
+	public String target;
 }

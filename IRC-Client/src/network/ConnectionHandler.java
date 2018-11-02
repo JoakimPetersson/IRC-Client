@@ -25,7 +25,6 @@ public class ConnectionHandler implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public void run() {
@@ -33,21 +32,21 @@ public class ConnectionHandler implements Runnable {
 		listener.start();
 	}
 	
-	public void readMessage() {
+	public Message readMessage() {
 		try {
-				while(true) {
-				if(!messageQueue.isEmpty()) {
-					System.out.println(messageQueue.take().content);
-				}
+
+			if(!messageQueue.isEmpty()) {
+				return messageQueue.take();	
 			}
 			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 	}
 	
-	void sendMessage(String message) {
+	public void sendMessage(String message) {
 		byte[] bytes = (message + "\r\n").getBytes();
 		
 		try {
