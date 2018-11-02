@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -22,6 +23,15 @@ public class LoginWindowController implements Initializable {
 /**
  * Properties
  */	 
+	
+	 @FXML
+		private TextField addServerName;
+	
+	 @FXML
+	    private TextField serverNameText;	
+	 
+	 @FXML
+	    private TextField serverRegionText;
     
 	 @FXML
 	    private TreeView<String> treeView_login;
@@ -36,28 +46,79 @@ public class LoginWindowController implements Initializable {
 	    private GridPane serverInfo;
 	 
 	 @FXML
+	  	private GridPane addServerInfo;
+	 
+	 @FXML
 	    private Button addServerBtn;
 	 
+	 @FXML
+	    private Button addServerOKbtn;
+	 
+	 @FXML
+	    private Button serverDeleteBtn;
+	 
+	 @FXML
+	    private Label errorMsgServer;
+
+	 
+	
 	 public TreeItem<String> serverRoot = new TreeItem<String>("asdas"); 
 	 
-/**
- * Events
- */	 
+	/**
+	 * Events
+	 */	 
+	 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		createTree();		
-	}	
+	}
 	
 	@FXML
-    void addServerBtn_Click(ActionEvent event) {
-		AddServerWindowController addServer = new AddServerWindowController();
-		addServer.StartAddserverScene(ref this);
+	void addServerBtn_Click(ActionEvent event) {
+		hideAllForms();
+		addServerInfo.setVisible(true);
+	}
+	
+	@FXML
+    void addServerOKbtn_Click(ActionEvent event) {
+		addServers();
+		hideAllForms();
+		serverInfo.setVisible(true);
+		serverNameText.setText(null);
+		serverRegionText.setText(null);
+    }	
+	
+	@FXML
+    void serverDeleteBtn_Click(ActionEvent event) {
+		removeSelectedItem();
     }	
 	
 	@FXML    
 	/**
 	 * Methods
-	 */		
+	 */
+	
+	private void removeSelectedItem() {
+		TreeItem<?> selected = treeViewServers.getSelectionModel().getSelectedItem();
+		try {
+		selected.getParent().getChildren().remove(selected);
+		}
+		catch (NullPointerException e) {
+			System.out.println("No server selected, no server deleted");
+			errorMsgServer.setText("No server selected, no server deleted");
+		}
+		
+		
+	}
+	
+	private void addServers() {
+		TreeItem<String> item = new TreeItem<>(serverNameText.getText().toString());
+		serverRoot.getChildren().add(item);
+		if (serverRegionText != null) {
+			TreeItem<String> region = new TreeItem<>(serverRegionText.getText().toString());
+			item.getChildren().add(region);
+		}
+	}
 	
 	public void StartLoginScene() {
 		BorderPane grid;
@@ -69,20 +130,20 @@ public class LoginWindowController implements Initializable {
 		stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
-	}
+		}	
+	}		
 	
 	private void createTree() {		
 		setupTreeItems();		
 		menuSelectCheck();	
-	}
+	}    
 
 	private void setupTreeItems() {
 		TreeItem<String> mainRoot, server, usersetup, placeHolderNetwork, euServer, usServer;		
 		mainRoot = new TreeItem<String>("Connect");
 		treeView_login.setRoot(mainRoot);				
 		treeViewServers.setRoot(serverRoot);
-		treeViewServers.setShowRoot(true);
+		treeViewServers.setShowRoot(false);
 		
 		usersetup = makeBranch("User info", mainRoot);
 		server = makeBranch("Server", mainRoot);
@@ -104,6 +165,7 @@ public class LoginWindowController implements Initializable {
 	private void hideAllForms() {
 		userInfo.setVisible(false);
 		serverInfo.setVisible(false);
+		addServerInfo.setVisible(false);
 	}
 	
 	public TreeItem<String> makeBranch(String title, TreeItem<String> parent){
