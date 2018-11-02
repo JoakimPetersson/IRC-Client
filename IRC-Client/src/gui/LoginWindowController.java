@@ -1,5 +1,5 @@
 package gui;
-
+//TODO add realname to form
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,15 +21,7 @@ public class LoginWindowController implements Initializable {
 	
 /**
  * Properties
- */		
-	 @FXML
-	 	private TextField addServerName;
-
-	 @FXML
-    	private Button addServerCancel;
-
-	 @FXML
-        private Button addServerOk; 
+ */	 
     
 	 @FXML
 	    private TreeView<String> treeView_login;
@@ -46,15 +38,10 @@ public class LoginWindowController implements Initializable {
 	 @FXML
 	    private Button addServerBtn;
 	 
-	 private TreeItem<String> serverRoot = new TreeItem<String>("asdas");
+	 public TreeItem<String> serverRoot = new TreeItem<String>("asdas");
 /**
  * Events
- */
-	@FXML
-	   void addServerOk_Click(ActionEvent event) {		
-	    makeBranch(addServerName.getText().toString(), serverRoot);
-	}
-	 
+ */	 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		createTree();		
@@ -62,14 +49,9 @@ public class LoginWindowController implements Initializable {
 	
 	@FXML
     void addServerBtn_Click(ActionEvent event) {
-		StartAddserverScene();
-    }
-	
-	@FXML
-    void addServerCancel_Click(ActionEvent event) {
-    	Stage stage = (Stage) addServerCancel.getScene().getWindow();
-    	stage.close();
-    }    
+		AddServerWindowController addServer = new AddServerWindowController();
+		addServer.StartAddserverScene();
+    }	
 	
 	@FXML    
 	/**
@@ -90,20 +72,6 @@ public class LoginWindowController implements Initializable {
 		
 	}
 	
-	public void StartAddserverScene() {
-		GridPane grid;
-		try {
-			grid = FXMLLoader.load(getClass().getResource("AddServerWindow.fxml"));		
-		Stage stage = new Stage();
-		Scene scene = new Scene(grid);	
-		stage.setScene(scene);
-		stage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
-	}
-	
-
 	private void createTree() {		
 		setupTreeItems();		
 		menuSelectCheck();	

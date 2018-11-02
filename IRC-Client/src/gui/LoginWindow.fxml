@@ -50,7 +50,7 @@
                   <Button mnemonicParsing="false" text="OK" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
                </children>
             </GridPane>
-            <GridPane fx:id="serverInfo" layoutX="6.0" layoutY="1.0" prefHeight="400.0" prefWidth="474.0">
+            <GridPane fx:id="serverInfo" layoutX="6.0" layoutY="1.0" prefHeight="400.0" prefWidth="474.0" visible="false">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="100.0" />
