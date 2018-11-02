@@ -12,8 +12,8 @@ import network.ConnectionHandler;
 import network.Message;
 import network.UserInfo;
 
-////ip: chat.freenode.net
-////port: 6665-6667
+//ip: chat.freenode.net
+//port: 6665-6667
 
 /*
  * TODO: Parser test. Make sure it can handle any random input and refuse messages that doesn't fit the IRC protocol
@@ -39,9 +39,9 @@ class NetworkTest {
 	void test() throws InterruptedException {
 		
 		UserInfo user = new UserInfo();
-		user.nickname = "IRC_Bot_TEST_JP_1";
+		user.setNickname("IRC_Bot_TEST_JP_1");
 		user.realname = "Joakim Petersson";
-		user.username = "JoakimPetersson";
+		user.setUsername("JoakimPetersson");
 		
 		ArrayList<String> channels = new ArrayList<String>();
 		
@@ -63,5 +63,12 @@ class NetworkTest {
 				}
 			}
 		}
+	}
+	
+	@Test
+	void removeWhiteSpaceFromNames() {
+		UserInfo user = new UserInfo();
+		user.setUsername(" Test Test Test    ");
+		assert user.getUsername().equals("TestTestTest");
 	}
 }

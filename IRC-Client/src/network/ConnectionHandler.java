@@ -95,12 +95,12 @@ public class ConnectionHandler {
 	}
 	
 	private void nickMessage() {
-		sendMessage("NICK " + user.nickname);
+		sendMessage("NICK " + user.getNickname());
 	}
 	
 	// TODO (maybe) Add an option to pick mode (Not sure if this feature is needed yet)
 	private void userMessage() {
-		sendMessage("USER " + user.username +  " 0 * :" + user.realname);
+		sendMessage("USER " + user.getUsername() +  " 0 * :" + user.realname);
 	}
 	
 	public void joinMessage(String channel) {
