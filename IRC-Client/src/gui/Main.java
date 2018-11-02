@@ -1,34 +1,28 @@
 package gui;
 
-import java.io.File;
-import java.net.URL;
-
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+
 	public class Main extends Application {
+		
 
 	public static void main (String[] args) {
-	launch(args);
+	Application.launch(args);	
 	}
 	
 	@Override
-	public void start (Stage primaryStage) throws Exception {
-		FXMLLoader loader = new FXMLLoader();
-		String path = new File("").getAbsolutePath();
-		String fullPath = "file:" + File.separator + File.separator + File.separator + path + 
-				File.separator+ "src" + File.separator + "gui" + File.separator + "MainWindow.fxml";
-		System.out.println(fullPath);
-		loader.setLocation(new URL(fullPath));
-		VBox vbox = loader.<VBox>load();
+	public void start (Stage stage) throws Exception {
 		
-		Scene scene = new Scene(vbox);
-		primaryStage.setScene(scene);
-		primaryStage.show();
-		
+		GridPane grid = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));		
+		Scene scene = new Scene(grid);	
+		stage.setScene(scene);
+		stage.show();		
 	}	
-
+	
 }
