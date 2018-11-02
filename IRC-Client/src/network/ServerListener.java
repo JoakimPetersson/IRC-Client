@@ -1,3 +1,9 @@
+/**
+ * 
+ * Listens to the incoming messages from a single IRC server and adds them to a BlockingQueue for later reading by a consumer class
+ * 
+ */
+
 package network;
 
 import java.io.BufferedReader;
@@ -5,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class ServerListener extends Thread implements Runnable {

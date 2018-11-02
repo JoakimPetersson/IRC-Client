@@ -1,24 +1,26 @@
+/*
+ * 
+ * MessageParser for turning raw IRC messages into more easily workable parts. 
+ * 
+ * Example of a standard IRC message:     :JoakimPetersson_!~JoakimPet@h-162-99.A205.priv.bahnhof.se PRIVMSG #joakimpetersson :test test test
+ * Ping messages has the format: "PING: other message"
+ * 
+ */
+
 package network;
 
 public class MessageParser {
-
-	Message currentMessage;
-	
 	public Message parseRawMessage(String rawMessage) {
 		Message outputMessage = new Message();
-		
 		String temp = rawMessage;
 		
-		// Test if message is of type PING
+		/* 
+		 * Test if message is of type PING
+		 * Because the PING message has a special message format, we have to check that first before doing the standard message parsing routine.
+		 */
 		if(temp.substring(0, 4).equals("PING")) {
 			outputMessage.type = MessageType.PING;
 		} else {
-		
-		
-		// Example:     :JoakimPetersson_!~JoakimPet@h-162-99.A205.priv.bahnhof.se PRIVMSG #joakimpetersson :test test test
-		
-		// Split string into parts
-		
 		// Remove first :
 		temp = rawMessage.substring(1);
 		
@@ -34,7 +36,6 @@ public class MessageParser {
 		
 		temp = parts[1];
 		// Determine message type
-		// TODO, if needed
 		parts = temp.split(" ", 2);
 		
 		MessageType type;
@@ -60,7 +61,8 @@ public class MessageParser {
 		
 		// Determine message content
 		if(parts.length == 2) {
-			outputMessage.content = parts[1];
+			temp = parts[1].substring(1);
+			outputMessage.content = temp;
 		}
 		
 		outputMessage.user = nick;
