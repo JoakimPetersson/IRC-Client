@@ -8,9 +8,15 @@ import org.junit.jupiter.api.Test;
 
 import network.ConnectionHandler;
 import network.Message;
+import network.UserInfo;
 
 ////ip: chat.freenode.net
 ////port: 6665-6667
+
+/*
+ * TODO: Parser test. Make sure it can handle any random input and refuse messages that doesn't fit the IRC protocol
+ * TODO: Network test with two ConnectionHandlers connecting with different names and talking to each other so we can have actual fail/success states for the test.
+ */
 
 class NetworkTest {
 
@@ -26,10 +32,15 @@ class NetworkTest {
 	void tearDown() throws Exception {
 	}
 
+	// This test is terrible and needs to be reworked into multiple smaller tests.
 	@Test
 	void test() throws InterruptedException {
 		
-		ConnectionHandler handler = new ConnectionHandler(serverAddress, port);
+		UserInfo user = null;
+		
+		user.nickname = "";
+		
+		ConnectionHandler handler = new ConnectionHandler(serverAddress, port, user);
 		
 		handler.run();
 		
@@ -43,7 +54,7 @@ class NetworkTest {
 			Message msg = handler.readMessage();
 			
 			if(msg != null) {
-				System.out.println(msg.user + " " + msg.content);
+				System.out.println(msg.user + "(" + msg.target + ") :" + msg.content);
 			}
 		}
 		

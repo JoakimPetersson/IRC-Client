@@ -5,4 +5,5 @@ public class UserInfo {
 	public String secondchoice;
 	public String thirdchoice;
 	public String username;
+	public String realname;
 }
