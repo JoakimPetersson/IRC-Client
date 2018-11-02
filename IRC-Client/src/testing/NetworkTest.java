@@ -2,6 +2,8 @@ package testing;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,32 +34,34 @@ class NetworkTest {
 	void tearDown() throws Exception {
 	}
 
-	// This test is terrible and needs to be reworked into multiple smaller tests.
+	// Connects to server and joins a channel, then leaves as soon as it gets the list of users in the channel.
 	@Test
 	void test() throws InterruptedException {
 		
-		UserInfo user = null;
+		UserInfo user = new UserInfo();
+		user.nickname = "IRC_Bot_TEST_JP_1";
+		user.realname = "Joakim Petersson";
+		user.username = "JoakimPetersson";
 		
-		user.nickname = "";
+		ArrayList<String> channels = new ArrayList<String>();
 		
-		ConnectionHandler handler = new ConnectionHandler(serverAddress, port, user);
-		
-		handler.run();
-		
-		handler.sendMessage("NICK IRC_Bot_Test_JP");
-		Thread.sleep(1000);
-		handler.sendMessage("USER JoakimPetersson null null JoakimPetersson");
-		Thread.sleep(1000);
-		handler.sendMessage("JOIN " + channel);
+		channels.add("#joakimpetersson");
+				
+		ConnectionHandler handler = new ConnectionHandler(serverAddress, port, user, channels);
+		handler.connectToServer();
 		
 		while(true) {
 			Message msg = handler.readMessage();
 			
 			if(msg != null) {
 				System.out.println(msg.user + "(" + msg.target + ") :" + msg.content);
+				
+				if(msg.content != null) {
+					if(msg.content.contains("End of /NAMES list.")) {
+						break;
+					}
+				}
 			}
 		}
-		
 	}
-
 }
