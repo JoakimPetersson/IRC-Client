@@ -1,5 +1,5 @@
 package gui;
-
+//TODO add hover transparancy on main menu 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
