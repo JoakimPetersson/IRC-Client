@@ -21,9 +21,10 @@ import javafx.stage.Stage;
 
 public class MainWindowController implements Initializable {
 
-/**
- * Properties
- */
+	/******************************************************************************************
+	 * Properties
+	 ******************************************************************************************
+	 */
     @FXML
     private Menu menu;
     
@@ -33,9 +34,10 @@ public class MainWindowController implements Initializable {
     @FXML
     TreeView<String> treeview_main;
     
-/**
- * Events
- */
+    /******************************************************************************************
+     * Events
+     ******************************************************************************************
+     */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		
 		CreateTree();
@@ -51,9 +53,10 @@ public class MainWindowController implements Initializable {
 		LoginWindowController loginWindow = new LoginWindowController();
 		loginWindow.StartLoginScene();
     }
-/**
- * Methods
- */
+	/******************************************************************************************
+	 * Methods
+	 ******************************************************************************************
+	 */
 	
 	private void CreateTree() {
 		

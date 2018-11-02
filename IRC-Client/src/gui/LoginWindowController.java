@@ -1,9 +1,8 @@
 package gui;
-//TODO add realname to form
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
+import gui.Helper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,11 +19,12 @@ import javafx.stage.Stage;
 
 public class LoginWindowController implements Initializable {
 	
-/**
- * Properties
- */	 
+	/****************************************************************************************
+	 * Properties
+	 ****************************************************************************************
+	 */
 	
-	 @FXML
+	 @FXML 
 		private TextField addServerName;
 	
 	 @FXML
@@ -58,15 +58,17 @@ public class LoginWindowController implements Initializable {
 	    private Button serverDeleteBtn;
 	 
 	 @FXML
-	    private Label errorMsgServer;
-
+	    private Label errorMsgAddServer;
 	 
+	 @FXML
+	    private Label errorMsgServer;	 
 	
 	 public TreeItem<String> serverRoot = new TreeItem<String>("asdas"); 
 	 
-	/**
-	 * Events
-	 */	 
+	 /****************************************************************************************
+	  * Events																				 
+	  ****************************************************************************************
+	  */	 
 	 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -80,22 +82,34 @@ public class LoginWindowController implements Initializable {
 	}
 	
 	@FXML
-    void addServerOKbtn_Click(ActionEvent event) {
-		addServers();
-		hideAllForms();
-		serverInfo.setVisible(true);
-		serverNameText.setText(null);
-		serverRegionText.setText(null);
-    }	
+    void addServerOKbtn_Click(ActionEvent event) {	
+		try {
+			if (!Helper.isEmptyOrNull(serverNameText.getText())) {
+			
+			addServers();
+			hideAllForms();
+			serverInfo.setVisible(true);
+			serverNameText.setText(null);
+			serverRegionText.setText(null);
+			}else throw new NullPointerException();
+		}
+		catch (NullPointerException e) {
+		System.out.println("You must enter a servername");
+		errorMsgAddServer.setText("You must enter a servername");
+		}
+	}
+		
+    	
 	
 	@FXML
     void serverDeleteBtn_Click(ActionEvent event) {
 		removeSelectedItem();
     }	
 	
-	@FXML    
-	/**
-	 * Methods
+	    
+	/****************************************************************************************
+	 * Methods																				
+	 ****************************************************************************************
 	 */
 	
 	private void removeSelectedItem() {
@@ -104,7 +118,6 @@ public class LoginWindowController implements Initializable {
 		selected.getParent().getChildren().remove(selected);
 		}
 		catch (NullPointerException e) {
-			System.out.println("No server selected, no server deleted");
 			errorMsgServer.setText("No server selected, no server deleted");
 		}
 		
@@ -112,12 +125,14 @@ public class LoginWindowController implements Initializable {
 	}
 	
 	private void addServers() {
+			
 		TreeItem<String> item = new TreeItem<>(serverNameText.getText().toString());
 		serverRoot.getChildren().add(item);
-		if (serverRegionText != null) {
+		if (!Helper.isEmptyOrNull(serverRegionText.getText())) {
 			TreeItem<String> region = new TreeItem<>(serverRegionText.getText().toString());
 			item.getChildren().add(region);
-		}
+			}
+		
 	}
 	
 	public void StartLoginScene() {
