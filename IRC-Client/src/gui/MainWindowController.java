@@ -1,27 +1,12 @@
 package gui;
-import java.awt.RenderingHints.Key;
-//TODO add hover transparancy on main menu 
-import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
-
-import javax.swing.text.AttributeSet.CharacterAttribute;
-import javax.swing.text.TabExpander;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.VPos;
-import javafx.geometry.VerticalDirection;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -34,9 +19,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextBoundsType;
-import javafx.stage.Stage;
+
+//TODO add hover transparancy on main menu
+
 
 public class MainWindowController implements Initializable {
 
@@ -68,18 +53,14 @@ public class MainWindowController implements Initializable {
     @FXML
     private TextField chatText;
     
-    private Tab[] tabArray = new Tab[999];
-    
     /******************************************************************************************
      * Events
      ******************************************************************************************
      */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		
-		CreateTree();
-		Label consoleText = new Label();
-		
-		createChatTab("Console", consoleText);
+		CreateTree();		
+		createChatTab("Console");
 	}		
 
 	@FXML
@@ -94,9 +75,8 @@ public class MainWindowController implements Initializable {
     }
 	
 	@FXML
-    public void addTestTab_Click(ActionEvent event) {
-		Label chatText = new Label();		
-		tabArray[0] = createChatTab("Test", chatText);
+    public void addTestTab_Click(ActionEvent event) {		
+		createChatTab("Test");
 		
     }
 	
@@ -148,7 +128,7 @@ public class MainWindowController implements Initializable {
 	    serverHeader.getChildren().add(server);		
 	}
 	
-	private Tab createChatTab(String s, Label l) {
+	private Tab createChatTab(String s) {
 		Tab tab = new Tab();
 		tab.setText(s);
 		chatTabs.getTabs().add(tab);
@@ -159,8 +139,9 @@ public class MainWindowController implements Initializable {
 		chatScroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		chatScroll.setMinWidth(1605);
 		chatScroll.setMaxHeight(800);
-		anchor.getChildren().add(chatScroll);				
-		l.setMinWidth(1605);
+		anchor.getChildren().add(chatScroll);	
+		Label l = new Label();
+		l.setMaxWidth(1605);
 		chatScroll.setContent(l);
 		return tab;
 	}	
