@@ -97,9 +97,7 @@ public class LoginWindowController implements Initializable {
 		System.out.println("You must enter a servername");
 		errorMsgAddServer.setText("You must enter a servername");
 		}
-	}
-		
-    	
+	}    	
 	
 	@FXML
     void serverDeleteBtn_Click(ActionEvent event) {

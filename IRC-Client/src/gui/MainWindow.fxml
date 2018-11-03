@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainWindowController">
+<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainWindowController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" percentWidth="15.0" />
       <ColumnConstraints percentWidth="80.0" />
@@ -60,7 +60,7 @@
         </items>
       </ToolBar>
       <TreeView fx:id="treeview_main" GridPane.rowIndex="3" GridPane.rowSpan="2" />
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <TextField fx:id="chatText" onKeyPressed="#chatText_OnKeyDown" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets left="15.0" />
          </GridPane.margin></TextField>

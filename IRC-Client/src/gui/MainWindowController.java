@@ -1,4 +1,5 @@
 package gui;
+import java.awt.RenderingHints.Key;
 //TODO add hover transparancy on main menu 
 import java.io.IOException;
 import java.net.URL;
@@ -7,12 +8,16 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.swing.text.AttributeSet.CharacterAttribute;
+import javax.swing.text.TabExpander;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.VPos;
+import javafx.geometry.VerticalDirection;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -25,9 +30,12 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextBoundsType;
 import javafx.stage.Stage;
 
 public class MainWindowController implements Initializable {
@@ -36,6 +44,9 @@ public class MainWindowController implements Initializable {
 	 * Properties
 	 ******************************************************************************************
 	 */
+	@FXML
+	private GridPane gridPane;	
+	
     @FXML
     private Menu menu;
     
@@ -53,6 +64,9 @@ public class MainWindowController implements Initializable {
     
     @FXML
     private Button sendBtn;
+    
+    @FXML
+    private TextField chatText;
     
     private Tab[] tabArray = new Tab[999];
     
@@ -86,14 +100,45 @@ public class MainWindowController implements Initializable {
 		
     }
 	
-	@FXML
-    void sendBtn_Click(ActionEvent event) {
-		System.out.println(chatTabs.getSelectionModel().getSelectedItem().getContent());
+	@FXML// Adding text from the chat-text to the window
+    void sendBtn_Click(ActionEvent event) {	
+		sendChatMessage();
     }
+	
+	@FXML
+    void chatText_OnKeyDown(KeyEvent event) {
+		if (event.getCode().toString().equals("ENTER")) {
+			sendChatMessage();
+		}
+    }	
+	
 	/******************************************************************************************
 	 * Methods
 	 ******************************************************************************************
 	 */
+	
+	private void sendChatMessage() {
+		try {
+			if (Helper.isEmptyOrNull(chatText.getText())) throw new NullPointerException();
+		Label currentLabel = getActiveLabel();
+		currentLabel.setText(currentLabel.getText() + "\n" + chatText.getText());
+		chatText.setText(null);
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+		}
+	}
+	
+	private Label getActiveLabel() {
+		// Getting The Anchor-pane in the active tab
+		AnchorPane currentPane = ((AnchorPane)chatTabs.getSelectionModel().getSelectedItem().getContent());
+		
+		// Getting The Scroll-pane in the active tab
+		ScrollPane currentScroll = (ScrollPane)currentPane.getChildren().get(0);
+				
+		// Getting The Label in the active tab
+		Label currentLabel = (Label)currentScroll.getContent();
+		return currentLabel;
+	}
 	
 	private void CreateTree() {
 		
@@ -111,12 +156,11 @@ public class MainWindowController implements Initializable {
 		tab.setContent(anchor);
 		ScrollPane chatScroll = new ScrollPane();
 		chatScroll.setHbarPolicy(ScrollBarPolicy.NEVER);
-		chatScroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		chatScroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		chatScroll.setMinWidth(1605);
-		chatScroll.setMinHeight(854);
+		chatScroll.setMaxHeight(800);
 		anchor.getChildren().add(chatScroll);				
 		l.setMinWidth(1605);
-		l.setMinHeight(854);
 		chatScroll.setContent(l);
 		return tab;
 	}	
