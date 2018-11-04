@@ -21,7 +21,7 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane fx:id="userInfo" layoutY="1.0" prefHeight="400.0" prefWidth="481.0">
+            <GridPane fx:id="userInfo" layoutY="1.0" prefHeight="400.0" prefWidth="481.0" visible="false">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
@@ -47,10 +47,10 @@
                   <TextField fx:id="secondChoiceText" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <TextField fx:id="thirdChoiceText" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                   <TextField fx:id="userNameText" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <Button fx:id="addUserOk" mnemonicParsing="false" onAction="#addUserOk_Click" text="OK" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
+                  <Button fx:id="addUserOk" mnemonicParsing="false" onAction="#addUserOk_Click" text="OK" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
                   <Label text="Real name: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
                   <TextField fx:id="realNameText" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                  <Label fx:id="createUserReporter" alignment="TOP_LEFT" contentDisplay="TOP" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="6" GridPane.valignment="TOP" />
+                  <Label fx:id="createUserReporter" alignment="TOP_LEFT" contentDisplay="TOP" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM" />
                </children>
             </GridPane>
             <GridPane fx:id="serverInfo" layoutX="6.0" layoutY="1.0" prefHeight="400.0" prefWidth="474.0" visible="false">
@@ -107,16 +107,21 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label fx:id="errorMsgAddServer" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <Button fx:id="addServerOKbtn" mnemonicParsing="false" onAction="#addServerOKbtn_Click" text="Add" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                  <Label fx:id="errorMsgAddServer" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.valignment="BOTTOM" />
+                  <Button fx:id="addServerOKbtn" mnemonicParsing="false" onAction="#addServerOKbtn_Click" text="Add" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP" />
                   <Label text="Server name: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                   <TextField fx:id="serverNameText" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Label text="Region" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <Label text="Region: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                   <TextField fx:id="serverRegionText" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <TextField fx:id="serverIpAdress" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <TextField fx:id="serverPort" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <Label text="IP-Adress: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                  <Label text="Port: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
                </children>
             </GridPane>
          </children>

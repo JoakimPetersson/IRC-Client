@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -23,7 +24,8 @@ import javafx.scene.layout.GridPane;
 import network.UserInfo;
 
 //TODO add hover transparancy on main menu
-//TODO add scrollwheel event to chatwindow
+//TODO add option to increase/decrease the fontsize
+//TODO add list of connected users in chanels
 
 
 public class MainWindowController implements Initializable {
@@ -54,7 +56,13 @@ public class MainWindowController implements Initializable {
     private Button sendBtn;
     
     @FXML
+    private Button addUserPh;
+    
+    @FXML
     private TextField chatText;
+    
+    @FXML
+    private ScrollPane chanelUserListScrollPane;    
     
     private ArrayList<UserInfo> createdUsers = new ArrayList<UserInfo>();    
     public ArrayList<UserInfo> GetCreatedUsers()
@@ -66,6 +74,8 @@ public class MainWindowController implements Initializable {
 		{
 				createdUsers.add(userToAdd);
 		}	
+	
+	ArrayList<String> testArray = new ArrayList<>();
     
     /******************************************************************************************
      * Events
@@ -75,7 +85,16 @@ public class MainWindowController implements Initializable {
     //Creates a treeview on the left side, showing the currently connected servers
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		
-		CreateTree();		
+		CreateTree();
+		
+		
+		
+		ListView<String> chanelUserList = new ListView<String>();
+		chanelUserListScrollPane.setContent(chanelUserList);
+		chanelUserList.prefWidthProperty().bind(chanelUserListScrollPane.widthProperty());
+		//chanelUserList.prefHeightProperty().bind(treeview_main.heightProperty());		
+		chanelUserList.getItems().addAll(testArray);
+		
 	}		
 
 	//Shuts down the app when you click the "close" button on the main-menu under "file"
@@ -112,6 +131,13 @@ public class MainWindowController implements Initializable {
 			sendChatMessage();
 		}
     }	
+	
+    @FXML
+    void addUserPh_Click(ActionEvent event) {
+    	testArray.add("User");
+    	ListView<String> chanelUserList = (ListView<String>) chanelUserListScrollPane.getContent();
+    	chanelUserList.getItems().add("User");
+    }
 	
 	/******************************************************************************************
 	 * Methods

@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
@@ -13,11 +14,11 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainWindowController">
+<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainWindowController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" percentWidth="15.0" />
-      <ColumnConstraints percentWidth="80.0" />
-      <ColumnConstraints percentWidth="5.0" />
+      <ColumnConstraints maxWidth="1019.0" minWidth="997.0" percentWidth="80.0" prefWidth="997.0" />
+      <ColumnConstraints maxWidth="91.0" minWidth="69.0" percentWidth="10.0" prefWidth="91.0" />
       <ColumnConstraints />
   </columnConstraints>
   <rowConstraints>
@@ -57,6 +58,7 @@
             <Button mnemonicParsing="false" />
             <Button mnemonicParsing="false" />
             <Button fx:id="addTestTab" mnemonicParsing="false" onAction="#addTestTab_Click" text="Add tab (Placeholder)" />
+            <Button fx:id="addUserPh" mnemonicParsing="false" onAction="#addUserPh_Click" text="Add User (Placeholder)" />
         </items>
       </ToolBar>
       <TreeView fx:id="treeview_main" GridPane.rowIndex="3">
@@ -68,6 +70,7 @@
             <Insets left="15.0" />
          </GridPane.margin></TextField>
       <Button fx:id="sendBtn" mnemonicParsing="false" onAction="#sendBtn_Click" text="Send" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-      <TabPane fx:id="chatTabs" tabClosingPolicy="ALL_TABS" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+      <TabPane fx:id="chatTabs" tabClosingPolicy="ALL_TABS" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <ScrollPane fx:id="chanelUserListScrollPane" hbarPolicy="NEVER" GridPane.columnIndex="2" GridPane.rowIndex="3" />
    </children>
 </GridPane>

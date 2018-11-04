@@ -18,6 +18,8 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import network.UserInfo;
 
+//TODO Fix edit button on add-server window
+
 public class LoginWindowController implements Initializable {
 	
 	/****************************************************************************************
@@ -26,64 +28,70 @@ public class LoginWindowController implements Initializable {
 	 */
 	
 	 @FXML 
-		private TextField addServerName;
+	 private TextField addServerName;
 	
 	 @FXML
-	    private TextField serverNameText;	
+	 private TextField serverNameText;	
 	 
 	 @FXML
-	    private TextField serverRegionText;
+	 private TextField serverRegionText;
 	 
 	 @FXML
-	    private TextField NickNameText;
+	 private TextField NickNameText;
 
 	 @FXML
-	 	private TextField secondChoiceText;
+	 private TextField secondChoiceText;
 
 	 @FXML
-	    private TextField thirdChoiceText;
+	 private TextField thirdChoiceText;
 
 	 @FXML
-	    private TextField userNameText;
+	 private TextField userNameText;
 	 
 	 @FXML
-	    private TextField realNameText;
+	 private TextField realNameText;
+	 
+	 @FXML
+	 private TextField serverIpAdress;
+
+	 @FXML
+	 private TextField serverPort;
     
 	 @FXML
-	    private TreeView<String> treeView_login;
+	 private TreeView<String> treeView_login;
 	 
 	 @FXML
-	    private TreeView<String> treeViewServers;
+	 private TreeView<String> treeViewServers;
 	 
 	 @FXML
-	    private GridPane userInfo;
+	 private GridPane userInfo;
 	 
 	 @FXML
-	    private GridPane serverInfo;
+	 private GridPane serverInfo;
 	 
 	 @FXML
-	  	private GridPane addServerInfo;
+	 private GridPane addServerInfo;
 	 
 	 @FXML
-	    private Button addServerBtn;
+	 private Button addServerBtn;
 	 
 	 @FXML
-	    private Button addServerOKbtn;
+	 private Button addServerOKbtn;
 	 
 	 @FXML
-	    private Button serverDeleteBtn;
+	 private Button serverDeleteBtn;
 	 
 	 @FXML
-	    private Button addUserOk;
+	 private Button addUserOk;
 	 
 	 @FXML
-	    private Label errorMsgAddServer;
+	 private Label errorMsgAddServer;
 	 
 	 @FXML
-	    private Label errorMsgServer;	
+	 private Label errorMsgServer;	
 	 
 	 @FXML
-	    private Label createUserReporter;
+	 private Label createUserReporter;
 	
 	 private TreeItem<String> serverRoot = new TreeItem<String>(); 
 	 
@@ -192,7 +200,7 @@ public class LoginWindowController implements Initializable {
 
 	//Creates the leftmost treeview
 	private void setupTreeItems() {
-		TreeItem<String> mainRoot, server, usersetup, placeHolderNetwork, euServer, usServer;		
+		TreeItem<String> mainRoot, server, usersetup;		
 		mainRoot = new TreeItem<String>("Connect");
 		treeView_login.setRoot(mainRoot);				
 		treeViewServers.setRoot(serverRoot);
@@ -200,9 +208,6 @@ public class LoginWindowController implements Initializable {
 		
 		usersetup = makeBranch("User info", mainRoot);
 		server = makeBranch("Server", mainRoot);
-		placeHolderNetwork = makeBranch("Placeholder server", serverRoot);
-		euServer = makeBranch("EU server (placeholder)", placeHolderNetwork); 
-		usServer = makeBranch("US server (Placeholder)", placeHolderNetwork);
 		
 		
 	}	
