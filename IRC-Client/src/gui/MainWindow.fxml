@@ -61,7 +61,7 @@
       </ToolBar>
       <TreeView fx:id="treeview_main" GridPane.rowIndex="3">
          <GridPane.margin>
-            <Insets top="40.0" />
+            <Insets />
          </GridPane.margin></TreeView>
       <TextField fx:id="chatText" onKeyPressed="#chatText_OnKeyDown" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <GridPane.margin>

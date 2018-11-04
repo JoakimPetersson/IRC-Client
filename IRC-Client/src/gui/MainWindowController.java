@@ -161,11 +161,12 @@ public class MainWindowController implements Initializable {
 		tab.setContent(anchor);
 		ScrollPane chatScroll = new ScrollPane();
 		chatScroll.setHbarPolicy(ScrollBarPolicy.NEVER);
-		chatScroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		chatScroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		anchor.getChildren().add(chatScroll);	
 		chatScroll.minWidthProperty().bind(chatTabs.widthProperty());
-		chatScroll.maxHeightProperty().bind(chatTabs.heightProperty().subtract(29));
+		chatScroll.prefHeightProperty().bind(chatTabs.heightProperty().subtract(29));		
 		Label l = new Label();
+		chatScroll.vvalueProperty().bind(l.heightProperty());
 		l.isWrapText();
 		chatScroll.setContent(l);
 		return tab;
