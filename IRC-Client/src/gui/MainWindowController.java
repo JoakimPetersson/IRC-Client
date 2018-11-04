@@ -122,7 +122,7 @@ public class MainWindowController implements Initializable {
 		try {
 			if (Helper.isEmptyOrNull(chatText.getText())) throw new NullPointerException();
 		Label currentLabel = getActiveLabel();
-		currentLabel.setText(currentLabel.getText() + "\n" + chatText.getText());
+		currentLabel.setText(currentLabel.getText() + chatText.getText().toString() + "\n");
 		chatText.setText(null);
 		} catch (NullPointerException e) {
 			// TODO: handle exception

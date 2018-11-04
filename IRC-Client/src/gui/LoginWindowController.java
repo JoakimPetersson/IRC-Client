@@ -141,9 +141,7 @@ public class LoginWindowController implements Initializable {
 	//Adds the created user to the "createdUser-list"
 	@FXML
     void addUserOk_Click(ActionEvent event) {
-    	UserInfo createdUser = CreateUser();
-    	MainWindow.AddCreatedUser(createdUser);
-    	createUserReporter.setText(createdUser.getUsername() + " Created");
+    	CreateUser();    	
     }	
 	    
 	/****************************************************************************************
@@ -234,14 +232,35 @@ public class LoginWindowController implements Initializable {
 	}
 	
 	//Takes the info from the create user-form and sets up a new user
-	private UserInfo CreateUser()
+	private void CreateUser()
 		{
-			UserInfo createdUser = new UserInfo();
-			createdUser.setUsername(userNameText.getText().toString());
-			createdUser.setNickname(NickNameText.getText().toString());
-			createdUser.setSecondchoice(secondChoiceText.getText().toString());
-			createdUser.setThirdchoice(thirdChoiceText.getText().toString());
-			return createdUser;
+			String createUserErrorMsg = "";
+			try
+				{
+					UserInfo createdUser = new UserInfo();
+					createdUser.setUsername(userNameText.getText().toString());
+					createdUser.setNickname(NickNameText.getText().toString());
+					createdUser.setSecondchoice(secondChoiceText.getText().toString());
+					createdUser.setThirdchoice(thirdChoiceText.getText().toString());
+					
+					if (Helper.isEmptyOrNull(NickNameText.getText().toString())) {
+						createUserErrorMsg = "Nickname cannot be empty";
+						throw new NullPointerException();
+					}
+					
+					else if (Helper.isEmptyOrNull(userNameText.getText())){
+						createUserErrorMsg = "Username cannot be empty";
+						throw new NullPointerException();
+					}
+					
+					MainWindow.AddCreatedUser(createdUser);
+					createUserReporter.setText(createdUser.getUsername() + " Created");
+					
+				} catch (Exception e)
+				{
+					createUserReporter.setText(createUserErrorMsg);
+					e.printStackTrace();
+				}
 		}
 
 	
