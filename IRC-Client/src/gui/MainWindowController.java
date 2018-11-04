@@ -23,7 +23,7 @@ import javafx.scene.layout.GridPane;
 import network.UserInfo;
 
 //TODO add hover transparancy on main menu
-//TODO make ChatScroll scroll down automatically as new messages appear
+//TODO add scrollwheel event to chatwindow
 
 
 public class MainWindowController implements Initializable {
