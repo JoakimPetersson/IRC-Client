@@ -57,34 +57,41 @@ public class MainWindowController implements Initializable {
      * Events
      ******************************************************************************************
      */
+    
+    //Creates a treeview on the left side, showing the currently connected servers
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		
 		CreateTree();		
-		createChatTab("Console");
 	}		
 
+	//Shuts down the app when you click the "close" button on the main-menu under "file"
 	@FXML
     void menu_close_click(ActionEvent event) {
 		Platform.exit();
     }
 	
+	//Shows options for server- and user options when you click the "Connect"-button under "file"
 	@FXML
     void menu_connect_click(ActionEvent event) {
 		LoginWindowController loginWindow = new LoginWindowController();
 		loginWindow.StartLoginScene();
     }
 	
+	
+	//Create a tab for testing when you click the "create tab"-button
 	@FXML
     public void addTestTab_Click(ActionEvent event) {		
 		createChatTab("Test");
 		
     }
 	
-	@FXML// Adding text from the chat-text to the window
+	// Adding text from the chat-text to the chat-window when you click the "send" button
+	@FXML
     void sendBtn_Click(ActionEvent event) {	
 		sendChatMessage();
     }
 	
+	//Sends the content of the chat-text to the chat-window when you press the enter-key
 	@FXML
     void chatText_OnKeyDown(KeyEvent event) {
 		if (event.getCode().toString().equals("ENTER")) {
@@ -97,6 +104,7 @@ public class MainWindowController implements Initializable {
 	 ******************************************************************************************
 	 */
 	
+	//Takes the text from the chat-text and adds to the chat-window, if null, empty or whitespace nothing happens 
 	private void sendChatMessage() {
 		try {
 			if (Helper.isEmptyOrNull(chatText.getText())) throw new NullPointerException();
@@ -108,6 +116,7 @@ public class MainWindowController implements Initializable {
 		}
 	}
 	
+	//sets the "currentLabel" variable to the currently active chat-window
 	private Label getActiveLabel() {
 		// Getting The Anchor-pane in the active tab
 		AnchorPane currentPane = ((AnchorPane)chatTabs.getSelectionModel().getSelectedItem().getContent());
@@ -120,6 +129,7 @@ public class MainWindowController implements Initializable {
 		return currentLabel;
 	}
 	
+	//sets up the treeitem-menu to the left of the app
 	private void CreateTree() {
 		
 	    TreeItem<String> serverHeader = new TreeItem<>("Connected servers");	 	
@@ -128,6 +138,7 @@ public class MainWindowController implements Initializable {
 	    serverHeader.getChildren().add(server);		
 	}
 	
+	//creates a new chat-window and places it in a new tab
 	private Tab createChatTab(String s) {
 		Tab tab = new Tab();
 		tab.setText(s);
