@@ -24,7 +24,7 @@
     <RowConstraints />
     <RowConstraints percentHeight="2.5" vgrow="SOMETIMES" />
       <RowConstraints percentHeight="5.5" vgrow="SOMETIMES" />
-    <RowConstraints vgrow="SOMETIMES" />
+    <RowConstraints percentHeight="84.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" percentHeight="8.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
@@ -59,7 +59,10 @@
             <Button fx:id="addTestTab" mnemonicParsing="false" onAction="#addTestTab_Click" text="Add tab (Placeholder)" />
         </items>
       </ToolBar>
-      <TreeView fx:id="treeview_main" GridPane.rowIndex="3" GridPane.rowSpan="2" />
+      <TreeView fx:id="treeview_main" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets top="40.0" />
+         </GridPane.margin></TreeView>
       <TextField fx:id="chatText" onKeyPressed="#chatText_OnKeyDown" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets left="15.0" />

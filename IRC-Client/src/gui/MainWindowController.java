@@ -23,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import network.UserInfo;
 
 //TODO add hover transparancy on main menu
+//TODO make ChatScroll scroll down automatically as new messages appear
 
 
 public class MainWindowController implements Initializable {
@@ -156,16 +157,16 @@ public class MainWindowController implements Initializable {
 		Tab tab = new Tab();
 		tab.setText(s);
 		chatTabs.getTabs().add(tab);
-		AnchorPane anchor = new AnchorPane();
+		AnchorPane anchor = new AnchorPane();		
 		tab.setContent(anchor);
 		ScrollPane chatScroll = new ScrollPane();
 		chatScroll.setHbarPolicy(ScrollBarPolicy.NEVER);
-		chatScroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		chatScroll.setMinWidth(1605);
-		chatScroll.setMaxHeight(800);
+		chatScroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		anchor.getChildren().add(chatScroll);	
+		chatScroll.minWidthProperty().bind(chatTabs.widthProperty());
+		chatScroll.maxHeightProperty().bind(chatTabs.heightProperty().subtract(29));
 		Label l = new Label();
-		l.setMaxWidth(1605);
+		l.isWrapText();
 		chatScroll.setContent(l);
 		return tab;
 	}

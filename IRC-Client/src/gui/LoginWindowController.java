@@ -1,8 +1,6 @@
 package gui;
-import java.awt.List;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import gui.Helper;
 import javafx.event.ActionEvent;
@@ -127,7 +125,6 @@ public class LoginWindowController implements Initializable {
 			}else throw new NullPointerException();
 		}
 		catch (NullPointerException e) {
-		System.out.println("You must enter a servername");
 		errorMsgAddServer.setText("You must enter a servername");
 		}
 	}    	
@@ -232,6 +229,7 @@ public class LoginWindowController implements Initializable {
 	}
 	
 	//Takes the info from the create user-form and sets up a new user
+	//Username and/or nickname cannot be empty, whitespace or null, shows error-message on screen 
 	private void CreateUser()
 		{
 			String createUserErrorMsg = "";

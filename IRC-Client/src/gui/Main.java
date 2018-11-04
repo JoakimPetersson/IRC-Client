@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 
 	public class Main extends Application {
+		public Stage currentMainStage;
 
 	public static void main (String[] args) {
 	Application.launch(args);	
@@ -19,7 +20,7 @@ import javafx.stage.Stage;
 		GridPane grid = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));		
 		Scene scene = new Scene(grid);	
 		stage.setScene(scene);
-		stage.show();		
+		stage.show();
 	}	
 	
 }
