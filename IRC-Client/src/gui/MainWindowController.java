@@ -1,5 +1,6 @@
 package gui;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -19,6 +20,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import network.UserInfo;
 
 //TODO add hover transparancy on main menu
 
@@ -52,6 +54,17 @@ public class MainWindowController implements Initializable {
     
     @FXML
     private TextField chatText;
+    
+    private ArrayList<UserInfo> createdUsers = new ArrayList<UserInfo>();    
+    public ArrayList<UserInfo> GetCreatedUsers()
+		{
+				return createdUsers;
+		}
+
+	public void AddCreatedUser(UserInfo userToAdd)
+		{
+				createdUsers.add(userToAdd);
+		}	
     
     /******************************************************************************************
      * Events
@@ -155,5 +168,6 @@ public class MainWindowController implements Initializable {
 		l.setMaxWidth(1605);
 		chatScroll.setContent(l);
 		return tab;
-	}	
+	}
+	
 }

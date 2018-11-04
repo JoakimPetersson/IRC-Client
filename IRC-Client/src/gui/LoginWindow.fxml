@@ -43,14 +43,14 @@
                   <Label text="Second choice: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                   <Label text="Third choise: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                   <Label text="Username: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-                  <TextField GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <TextField GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                  <TextField GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <Button mnemonicParsing="false" text="OK" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
+                  <TextField fx:id="NickNameText" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="secondChoiceText" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <TextField fx:id="thirdChoiceText" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <TextField fx:id="userNameText" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <Button fx:id="addUserOk" mnemonicParsing="false" onAction="#addUserOk_Click" text="OK" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
                   <Label text="Real name: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
-                  <TextField GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                  <Label alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="66.0" prefWidth="138.0" text="Label" GridPane.columnIndex="2" GridPane.valignment="TOP" />
+                  <TextField fx:id="realNameText" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                  <Label fx:id="createUserReporter" alignment="TOP_LEFT" contentDisplay="TOP" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.valignment="TOP" />
                </children>
             </GridPane>
             <GridPane fx:id="serverInfo" layoutX="6.0" layoutY="1.0" prefHeight="400.0" prefWidth="474.0" visible="false">

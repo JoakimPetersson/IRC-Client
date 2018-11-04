@@ -1,6 +1,8 @@
 package gui;
+import java.awt.List;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import gui.Helper;
 import javafx.event.ActionEvent;
@@ -16,6 +18,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import network.UserInfo;
 
 public class LoginWindowController implements Initializable {
 	
@@ -32,6 +35,21 @@ public class LoginWindowController implements Initializable {
 	 
 	 @FXML
 	    private TextField serverRegionText;
+	 
+	 @FXML
+	    private TextField NickNameText;
+
+	 @FXML
+	 	private TextField secondChoiceText;
+
+	 @FXML
+	    private TextField thirdChoiceText;
+
+	 @FXML
+	    private TextField userNameText;
+	 
+	 @FXML
+	    private TextField realNameText;
     
 	 @FXML
 	    private TreeView<String> treeView_login;
@@ -58,12 +76,21 @@ public class LoginWindowController implements Initializable {
 	    private Button serverDeleteBtn;
 	 
 	 @FXML
+	    private Button addUserOk;
+	 
+	 @FXML
 	    private Label errorMsgAddServer;
 	 
 	 @FXML
-	    private Label errorMsgServer;	 
+	    private Label errorMsgServer;	
+	 
+	 @FXML
+	    private Label createUserReporter;
 	
 	 private TreeItem<String> serverRoot = new TreeItem<String>(); 
+	 
+	 private MainWindowController MainWindow;
+	 
 	 
 	 /****************************************************************************************
 	  * Events																				 
@@ -72,7 +99,8 @@ public class LoginWindowController implements Initializable {
 	 
 	//Sets up the menu on the left side with the needed options
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize(URL location, ResourceBundle resources) {		
+		MainWindow = new MainWindowController();
 		createTree();		
 	}
 	
@@ -109,6 +137,14 @@ public class LoginWindowController implements Initializable {
 		removeSelectedItem();
     }	
 	
+	//Takes the info from the "create user"-form and creates the user
+	//Adds the created user to the "createdUser-list"
+	@FXML
+    void addUserOk_Click(ActionEvent event) {
+    	UserInfo createdUser = CreateUser();
+    	MainWindow.AddCreatedUser(createdUser);
+    	createUserReporter.setText(createdUser.getUsername() + " Created");
+    }	
 	    
 	/****************************************************************************************
 	 * Methods																				
@@ -196,6 +232,17 @@ public class LoginWindowController implements Initializable {
 		parent.getChildren().add(item);
 		return item;
 	}
+	
+	//Takes the info from the create user-form and sets up a new user
+	private UserInfo CreateUser()
+		{
+			UserInfo createdUser = new UserInfo();
+			createdUser.setUsername(userNameText.getText().toString());
+			createdUser.setNickname(NickNameText.getText().toString());
+			createdUser.setSecondchoice(secondChoiceText.getText().toString());
+			createdUser.setThirdchoice(thirdChoiceText.getText().toString());
+			return createdUser;
+		}
 
 	
 
