@@ -38,7 +38,18 @@ public class UserInfo {
 		this.realname = realname;
 	}
 	private String removeForbiddenCharacters(String input) {
-		return input.replaceAll("\\s", "");
+		//Allowed: numbers, letters, -  [ ] \ ^ { }
+		
+		String output = input;
+		
+		if(!output.matches("[a-zA-Z0-9+=*/^()_-]+")) { 
+			System.out.println("Faulty nickname! Test will fail!");
+			output = output.replaceAll("[^a-zA-Z0-9\\[\\]\\{\\}\\\\-]", "");
+			System.out.println("Name after replace: " + output);
+		}
+		// input.replaceAll("\\s", "")
+		
+		return output;
 	}
 
 }

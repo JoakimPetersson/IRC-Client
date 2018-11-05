@@ -62,6 +62,32 @@ class NetworkTest {
 	}
 	
 	@Test
+	void nickNameTest() throws InterruptedException {			
+		user.setNickname("test !\"#§%&/()=?``ß1@£$Ä6{[]}\\^~~*≈ƒ÷Ä<>|‰÷*'");
+		
+		ConnectionHandler handler = new ConnectionHandler(serverAddress, port, user, channels);
+		handler.connectToServer();
+		
+		while(true) {
+			Message msg = handler.readMessage();
+			
+			if(msg != null) {
+				System.out.println(msg.raw);
+				
+				if(msg.content != null) {
+					if(msg.content.contains("End of /NAMES list.")) {
+						break;
+					}
+					
+					if(msg.raw.contains("Erroneous Nickname")) {
+						fail("Test failed: Faulty nickname");
+					}
+				}
+			}
+		}
+	}
+	
+	@Test
 	void firstChoiceNickNameNotAvailable() {		
 		ConnectionHandler firstHandler = new ConnectionHandler(serverAddress, port, user, channels);
 		ConnectionHandler secondHandler = new ConnectionHandler(serverAddress, port, user, channels);

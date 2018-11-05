@@ -132,7 +132,7 @@ public class ConnectionHandler {
 	}
 	
 	public void quitMessage(String message) {
-		sendMessage("QUIT :Quit: " + message);
+		sendMessage("QUIT " + message);
 	}
 	
 	public void sendPRIVMSG(String message, String target) {
