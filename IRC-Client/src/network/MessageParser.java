@@ -13,6 +13,7 @@ public class MessageParser {
 	public Message parseRawMessage(String rawMessage) {
 		Message outputMessage = new Message();
 		String temp = rawMessage;
+		outputMessage.raw = rawMessage;
 		
 		/* 
 		 * Test if message is of type PING

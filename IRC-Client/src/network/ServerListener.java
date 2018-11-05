@@ -15,9 +15,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class ServerListener extends Thread implements Runnable {
 
-	LinkedBlockingQueue<Message> messageQueue = null;
-	Socket socket;
-	InputStream inStream = null;
+	private LinkedBlockingQueue<Message> messageQueue = null;
+	private Socket socket;
+	private InputStream inStream = null;
+	private boolean run = true;
 	
 	ServerListener(Socket socket, LinkedBlockingQueue<Message> messageQueue){
 		this.messageQueue = messageQueue;
@@ -30,23 +31,19 @@ public class ServerListener extends Thread implements Runnable {
 		}
 	}
 	
+	public void stopThread() {
+		run = false;
+	}
+	
 	public void run() {
 		try {
 			MessageParser parser = new MessageParser();
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			Message temp = new Message();
-		while(true) {
+		while(run) {
 			if(br.ready()) {
 				temp = parser.parseRawMessage(br.readLine());
-				
-				if(temp.type == MessageType.PING) {
-					// respond with PONG
-					byte[] bytes = ("PONG" + "\r\n").getBytes();
-					socket.getOutputStream().write(bytes);
-					System.out.println("----- RESPONDED TO PING -----");
-				} else {
-					messageQueue.add(temp);
-				}
+				messageQueue.add(temp);
 			}
 		}
 	} catch (IOException e) {
