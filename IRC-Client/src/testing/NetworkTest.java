@@ -76,6 +76,7 @@ class NetworkTest {
 				
 				if(msg.content != null) {
 					if(msg.content.contains("End of /NAMES list.")) {
+						handler.quitMessage("Successful test");
 						break;
 					}
 					
@@ -117,6 +118,32 @@ class NetworkTest {
 		secondHandler.quitMessage("Test finished without any errors");
 	}
 	
+	@Test
+	void multipleChannelsTest() {
+		channels.add("#joakimpeterssontest");
+		
+		ConnectionHandler handler = new ConnectionHandler(serverAddress, port, user, channels);
+		handler.connectToServer();
+		
+		Timer timer = new Timer();
+		
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				handler.sendPRIVMSG("Writing to channel 1", channels.get(0));
+				handler.sendPRIVMSG("Writing to channel 2", channels.get(1));
+				handler.quitMessage("Tests worked correctly");
+			}
+		}, 30*1000);
+		
+		while(true) {
+			Message msg = handler.readMessage();
+			
+			if(msg != null) {
+				System.out.println(msg.raw);
+			}
+		}
+	}
 	
 	@Test
 	void quitMessage() {		

@@ -55,7 +55,6 @@ public class ConnectionHandler {
 				if(output.content != null) {
 					if(output.content.contains("Nickname is already in use") && output.target.equals("*")) {
 						// Reconnect with second nickname
-						System.out.println("NickChoice: " + nickChoice);
 						quitMessage("Changing nickname");
 						listener.stopThread();
 						nickChoice += 1;
@@ -105,7 +104,6 @@ public class ConnectionHandler {
 		if(joinOnConnectChannels != null) {
 			for(String channel: joinOnConnectChannels) {
 				joinMessage(channel);
-				// TODO Test if a wait period is needed between JOIN messages or if the server can handle a bunch of almost instant join commands
 			}
 		}
 	}
