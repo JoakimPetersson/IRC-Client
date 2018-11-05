@@ -40,7 +40,7 @@ class NetworkTest {
 		
 		UserInfo user = new UserInfo();
 		user.setNickname("IRC_Bot_TEST_JP_1");
-		user.realname = "Joakim Petersson";
+		user.setRealname("Joakim Petersson");
 		user.setUsername("JoakimPetersson");
 		
 		ArrayList<String> channels = new ArrayList<String>();

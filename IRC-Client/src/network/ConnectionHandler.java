@@ -12,7 +12,6 @@
  */
 
 
-
 package network;
 
 import java.io.IOException;
@@ -100,7 +99,7 @@ public class ConnectionHandler {
 	
 	// TODO (maybe) Add an option to pick mode (Not sure if this feature is needed yet)
 	private void userMessage() {
-		sendMessage("USER " + user.getUsername() +  " 0 * :" + user.realname);
+		sendMessage("USER " + user.getUsername() +  " 0 * :" + user.getRealname());
 	}
 	
 	public void joinMessage(String channel) {
