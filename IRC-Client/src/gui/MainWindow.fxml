@@ -7,10 +7,10 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -73,7 +73,6 @@
          </GridPane.margin></TextField>
       <Button fx:id="sendBtn" mnemonicParsing="false" onAction="#sendBtn_Click" text="Send" GridPane.columnIndex="2" GridPane.rowIndex="5" />
       <ScrollPane fx:id="chanelUserListScrollPane" hbarPolicy="NEVER" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-      <TextArea fx:id="chatTextOut" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.rowSpan="2" />
       <Label text="Connected Servers" GridPane.halignment="CENTER" GridPane.rowIndex="3">
          <font>
             <Font size="18.0" />
@@ -84,5 +83,6 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.rowSpan="2" />
    </children>
 </GridPane>

@@ -19,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import network.ServerInfo;
 import network.UserInfo;
 
 //TODO Fix edit button on add-server window
@@ -124,8 +125,6 @@ public class LoginWindowController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		createTree();
-		//mainWindow.createChatTab("aklsdm");
-		//startWindow.createChatTab("asda");
 		
 	}
 	
@@ -144,7 +143,7 @@ public class LoginWindowController implements Initializable {
 		try {
 			if (!Helper.isEmptyOrNull(serverNameText.getText())) {
 			
-			addServers();
+			createServer();
 			hideAllForms();
 			serverInfo.setVisible(true);
 			serverNameText.setText(null);
@@ -183,16 +182,13 @@ public class LoginWindowController implements Initializable {
 			errorMsgServer.setText("No server selected, no server deleted");
 		}		
 	}	
-	//Takes then info from the "add-server"-form and adds to the server-treeview
+	//Takes then info from the "add-server"-form a nd adds to the server-treeview
 	//cannot be empty, whitespace or null
-	private void addServers() {
-			
-		TreeItem<String> item = new TreeItem<>(serverNameText.getText().toString());
-		serverRoot.getChildren().add(item);
-		if (!Helper.isEmptyOrNull(serverRegionText.getText())) {
-			TreeItem<String> region = new TreeItem<>(serverRegionText.getText().toString());
-			item.getChildren().add(region);
-			}
+	private void createServer() {
+			ServerInfo currentServer = new ServerInfo();
+			currentServer.serverName = serverNameText.getText();
+			currentServer.serverAddress = serverIpAdress.getText();
+		
 		
 	}
 	//Sets up the server- and user options screen
