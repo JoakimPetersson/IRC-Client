@@ -110,10 +110,7 @@ public class LoginWindowController implements Initializable {
 		public void setFontSize(int fontSize)
 			{
 					this.fontSize = fontSize;
-			}
-		
-		private MainWindowController startWindow;
-			
+			}			
 	 
 	 
 	 /****************************************************************************************
@@ -194,7 +191,6 @@ public class LoginWindowController implements Initializable {
 	//Sets up the server- and user options screen
 	public void Start(MainWindowController mainWindow) {
 		System.out.println(mainWindow);
-		startWindow = mainWindow;
 		BorderPane grid;
 		try {
 			grid = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));		
