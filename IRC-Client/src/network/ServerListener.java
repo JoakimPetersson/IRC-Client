@@ -2,6 +2,8 @@
  * 
  * Listens to the incoming messages from a single IRC server and adds them to a BlockingQueue for later reading by a consumer class
  * 
+ * It also maintains the connection to the server by responding to PING messages.
+ * 
  */
 
 package network;
@@ -36,6 +38,15 @@ public class ServerListener extends Thread implements Runnable {
 		while(run) {
 			if(br.ready()) {
 				temp = parser.parseRawMessage(br.readLine());
+				
+				if(temp.type == MessageType.PING) {				
+					try {
+						socket.getOutputStream().write(("PONG" + "\r\n").getBytes());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
 				messageQueue.add(temp);
 			}
 		}

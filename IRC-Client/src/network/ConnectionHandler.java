@@ -48,10 +48,6 @@ public class ConnectionHandler {
 			if(!messageQueue.isEmpty()) {
 				Message output =  messageQueue.take();
 				
-				if(output.type == MessageType.PING) {
-					sendMessage("PONG" + "\r\n");
-				}
-				
 				if(output.content != null) {
 					if(output.content.contains("Nickname is already in use") && output.target.equals("*")) {
 						// Reconnect with second nickname
