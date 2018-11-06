@@ -66,7 +66,6 @@ public class ConnectionHandler {
 				return output;	
 			}	
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -78,7 +77,6 @@ public class ConnectionHandler {
 		try {
 			out.write(bytes);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -89,10 +87,8 @@ public class ConnectionHandler {
 			server = new Socket(serverName, port);
 			out = server.getOutputStream();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -14,7 +14,7 @@ import network.ConnectionHandler;
 import network.Message;
 import network.UserInfo;
 
-//ip: chat.freenode.net
+//IP address: chat.freenode.net
 //port: 6665-6667
 
 class NetworkTest {
@@ -97,7 +97,6 @@ class NetworkTest {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		secondHandler.connectToServer();
@@ -154,7 +153,6 @@ class NetworkTest {
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		secondHandler.connectToServer();
@@ -171,7 +169,7 @@ class NetworkTest {
 		
 		
 		while(true) {	
-		Message firstmsg = firstHandler.readMessage();
+		firstHandler.readMessage();
 		Message secondmsg = secondHandler.readMessage();
 			if(secondmsg != null) {
 				System.out.println(secondmsg.raw);
@@ -181,7 +179,6 @@ class NetworkTest {
 						try {
 							Thread.sleep(2000);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
