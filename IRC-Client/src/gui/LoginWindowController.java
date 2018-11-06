@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 
 import javax.management.RuntimeErrorException;
 
+import com.sun.javafx.scene.layout.region.SliceSequenceConverter;
+
 import gui.Helper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +16,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -24,8 +29,7 @@ import network.ServerInfo;
 import network.UserInfo;
 
 //TODO Fix edit button on add-server window
-//TODO add connect button to serverlist
-//TODO make listview instead of label on the server-form
+//TODO Finish the edit function
 
 public class LoginWindowController implements Initializable {
 	
@@ -68,9 +72,6 @@ public class LoginWindowController implements Initializable {
 	 private TreeView<String> treeView_login;
 	 
 	 @FXML
-	 private TreeView<String> treeViewServers;
-	 
-	 @FXML
 	 private GridPane userInfo;
 	 
 	 @FXML
@@ -86,7 +87,10 @@ public class LoginWindowController implements Initializable {
 	 private Button addServerOKbtn;
 	 
 	 @FXML
-	 private Button serverDeleteBtn;
+	 private Button serverDeleteBtn; 
+
+	 @FXML
+	 private Button serverEditBtn;
 	 
 	 @FXML
 	 private Button addUserOk;
@@ -99,8 +103,12 @@ public class LoginWindowController implements Initializable {
 	 
 	 @FXML
 	 private Label createUserReporter;
-	
-	 private TreeItem<String> serverRoot = new TreeItem<String>(); 		
+	 
+	 @FXML
+	 private ListView<String> serverListview; 
+	 
+	 @FXML
+	 private ScrollPane serverScrollPane;
 		
 	 private ArrayList<ServerInfo> serverList = new ArrayList<>(); 
 		
@@ -116,7 +124,9 @@ public class LoginWindowController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		createTree();
-		
+		serverListview.minHeightProperty().bind(serverScrollPane.heightProperty());
+		serverListview.maxWidthProperty().bind(serverScrollPane.widthProperty());
+		serverScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 	}
 	
 	//Hides all other forms and shows the "add-server form"
@@ -146,6 +156,14 @@ public class LoginWindowController implements Initializable {
     void addUserOk_Click(ActionEvent event) {
     	CreateUser();    	
     }	
+	
+
+    @FXML
+    void serverEditBtn_Click(ActionEvent event) {
+    	editServer();
+    	
+    	
+    }
 	    
 	/****************************************************************************************
 	 * Methods	 
@@ -169,8 +187,7 @@ public class LoginWindowController implements Initializable {
 				} else if (Helper.isEmptyOrNull(serverPort.getText())) {
 					errorMessage = "Server port cannot be empty";
 					throw new Exception();
-				}
-				
+				}				
 				else {					
 				ServerInfo currentServer = new ServerInfo();				
 				addServerInfo(currentServer);			
@@ -196,16 +213,17 @@ public class LoginWindowController implements Initializable {
 		}
 	
 	//Looks up what server is currently selected and removes it from the treeview
-	//Shows error-message if noone is selected
+	//Shows error-message if none is selected
 	private void removeSelectedItem() {
-		TreeItem<?> selected = treeViewServers.getSelectionModel().getSelectedItem();
+		String selected = serverListview.getSelectionModel().getSelectedItem();
 		try {
-		selected.getParent().getChildren().remove(selected);
+		serverListview.getItems().remove(selected);
 		}
 		catch (NullPointerException e) {
 			errorMsgServer.setText("No server selected, no server deleted");
 		}		
-	}	
+	}
+	
 	//Takes then info from the "add-server"-form a and adds to the server-treeview
 	//cannot be empty, whitespace or null
 	private ServerInfo addServerInfo(ServerInfo currentServer) {
@@ -216,9 +234,9 @@ public class LoginWindowController implements Initializable {
 	}
 	
 	//Adds the server name to the server menu and adds the server-object to an array called "serverList"
-	private void addServerToList(ServerInfo server){			
-			TreeItem<String> item = Helper.makeBranch(server.serverName, serverRoot);			
-			serverList.add(server);		
+	private void addServerToList(ServerInfo server){		
+			serverList.add(server);	
+			serverListview.getItems().add(server.serverName);
 		}
 	
 	//Checks for any other server already added with the same server name
@@ -260,9 +278,7 @@ public class LoginWindowController implements Initializable {
 	private void setupTreeItems() {
 		TreeItem<String> mainRoot, server, usersetup, looks;		
 		mainRoot = new TreeItem<String>("Connections");
-		treeView_login.setRoot(mainRoot);				
-		treeViewServers.setRoot(serverRoot);
-		treeViewServers.setShowRoot(false);
+		treeView_login.setRoot(mainRoot);
 		treeView_login.setShowRoot(false);
 		
 		usersetup = Helper.makeBranch("User info", mainRoot);
@@ -342,6 +358,35 @@ public class LoginWindowController implements Initializable {
 					createUserReporter.setText(createUserErrorMsg);
 					e.printStackTrace();
 				}
+		}
+	
+	private void editServer()
+		{
+			String selected = serverListview.getSelectionModel().getSelectedItem();
+			ServerInfo selectedServer = new ServerInfo();
+			System.out.println(selectedServer.serverName);
+			
+			for (ServerInfo serverInfo : serverList)
+				{
+					if (selected.equals(serverInfo.serverName)){
+						selectedServer.serverName = serverInfo.serverName;
+						selectedServer.serverAddress = serverInfo.serverAddress;
+						selectedServer.port = serverInfo.port;
+						System.out.println(serverInfo.serverName);
+						break;
+					}
+				}
+			System.out.println(selectedServer.serverName);
+			if (selected != null) {
+				hideAllForms();
+				addServerInfo.setVisible(true);
+				addServerName.setText(selectedServer.serverName);
+				System.out.println(selectedServer.serverName);
+				serverIpAdress.setText(selectedServer.serverAddress);
+				serverPort.setText(Integer.toString(selectedServer.port));
+				
+				
+			}else System.out.println("fel");
 		}
 
 }
