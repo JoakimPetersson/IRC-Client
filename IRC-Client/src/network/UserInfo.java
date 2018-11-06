@@ -5,7 +5,7 @@ public class UserInfo {
 	private String secondchoice; 
 	private String thirdchoice;
 	private String username;
-	public String realname;
+	private String realname;
 	
 	public String getNickname() {
 		return nickname;
@@ -31,7 +31,21 @@ public class UserInfo {
 	public void setUsername(String username) {
 		this.username = removeForbiddenCharacters(username);
 	}
+	public String getRealname() {
+		return realname;
+	}
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
 	private String removeForbiddenCharacters(String input) {
-		return input.replaceAll("\\s", "");
+		//Allowed: numbers, letters, -  [ ] \ ^ { }
+		
+		String output = input;
+		
+		if(!output.matches("[a-zA-Z0-9+=*/^()_-]+")) { 
+			output = output.replaceAll("[^a-zA-Z0-9\\[\\]\\{\\}\\\\-]", "");
+		}
+		
+		return output;
 	}
 }

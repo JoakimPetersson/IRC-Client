@@ -4,14 +4,10 @@
  * 
  * Creates a separate thread for listening to messages coming from that server.
  * 
- * TODO: Manage first, second, and third choice of nickname
+ * TODO: Special case for when third choice of nickname is already taken
  * TODO: Connect function that can connect to server that requires a password
- * TODO: Testclass for sending and receiving messages at the same time
- * TODO: add quit message function
  * TODO: look into other message functions that might be needed
  */
-
-
 
 package network;
 
@@ -29,6 +25,8 @@ public class ConnectionHandler {
 	private String serverName;
 	private int port;
 	private UserInfo user;
+	private ServerListener listener = null;
+	private int nickChoice = 1;
 	
 	LinkedBlockingQueue<Message> messageQueue = new LinkedBlockingQueue<Message>();
 	ArrayList<String> joinOnConnectChannels = null;
@@ -41,17 +39,29 @@ public class ConnectionHandler {
 	}
 	
 	public void runServerMessageListener() {
-		Thread listener = new Thread(new ServerListener(server, messageQueue));
+		listener = new ServerListener(server, messageQueue);
 		listener.start();
 	}
 	
 	public Message readMessage() {
 		try {
 			if(!messageQueue.isEmpty()) {
-				return messageQueue.take();	
+				Message output =  messageQueue.take();
+				
+				if(output.content != null) {
+					if(output.content.contains("Nickname is already in use") && output.target.equals("*")) {
+						// Reconnect with second nickname
+						quitMessage("Changing nickname");
+						listener.stopThread();
+						nickChoice += 1;
+						Thread.sleep(2000);
+						connectToServer();		
+					}
+				}
+				
+				return output;	
 			}	
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -63,7 +73,6 @@ public class ConnectionHandler {
 		try {
 			out.write(bytes);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -74,10 +83,8 @@ public class ConnectionHandler {
 			server = new Socket(serverName, port);
 			out = server.getOutputStream();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -89,18 +96,42 @@ public class ConnectionHandler {
 		if(joinOnConnectChannels != null) {
 			for(String channel: joinOnConnectChannels) {
 				joinMessage(channel);
-				// TODO Test if a wait period is needed between JOIN messages or if the server can handle a bunch of almost instant join commands
 			}
 		}
 	}
 	
 	private void nickMessage() {
-		sendMessage("NICK " + user.getNickname());
+		String nick;
+		
+		switch (nickChoice){
+		case 1:
+			nick = user.getNickname();
+			break;
+		case 2:
+			nick = user.getSecondchoice();
+			break;
+		case 3:
+			nick = user.getThirdchoice();
+			break;
+		default:
+			nick = user.getNickname();
+			break;
+		}
+		
+		sendMessage("NICK " +  nick);
+	}
+	
+	public void quitMessage(String message) {
+		sendMessage("QUIT " + message);
+	}
+	
+	public void sendPRIVMSG(String message, String target) {
+		sendMessage("PRIVMSG " + target + " :" + message);
 	}
 	
 	// TODO (maybe) Add an option to pick mode (Not sure if this feature is needed yet)
 	private void userMessage() {
-		sendMessage("USER " + user.getUsername() +  " 0 * :" + user.realname);
+		sendMessage("USER " + user.getUsername() +  " 0 * :" + user.getRealname());
 	}
 	
 	public void joinMessage(String channel) {

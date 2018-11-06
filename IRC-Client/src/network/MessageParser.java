@@ -13,6 +13,7 @@ public class MessageParser {
 	public Message parseRawMessage(String rawMessage) {
 		Message outputMessage = new Message();
 		String temp = rawMessage;
+		outputMessage.raw = rawMessage;
 		
 		/* 
 		 * Test if message is of type PING
@@ -49,6 +50,18 @@ public class MessageParser {
 				break;
 			case "PING":
 				type = MessageType.PING;
+				break;
+			case "QUIT":
+				type = MessageType.QUIT;
+				break;
+			case "PART":
+				type = MessageType.PART;
+				break;
+			case "AWAY":
+				type = MessageType.AWAY;
+				break;
+			case "JOIN":
+				type = MessageType.JOIN;
 				break;
 			default:
 				type = MessageType.CODE;		

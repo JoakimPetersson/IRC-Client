@@ -10,7 +10,7 @@
 package network;
 
 enum MessageType{
-	NOTICE, PRIVMSG, PING, CODE
+	NOTICE, PRIVMSG, PING, CODE, JOIN, QUIT, PART, AWAY
 }
 
 public class Message {
@@ -18,4 +18,5 @@ public class Message {
 	public String content;
 	public MessageType type;
 	public String target;
+	public String raw;
 }
