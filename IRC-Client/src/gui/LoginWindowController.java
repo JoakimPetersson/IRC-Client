@@ -42,7 +42,7 @@ public class LoginWindowController implements Initializable {
 	 private TextField serverRegionText;
 	 
 	 @FXML
-	 private TextField NickNameText;
+	 private TextField NickNameText; // TODO change N to n
 
 	 @FXML
 	 private TextField secondChoiceText;
@@ -124,6 +124,7 @@ public class LoginWindowController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		createTree();
+		
 		//mainWindow.createChatTab("aklsdm");
 		//startWindow.createChatTab("asda");
 		
@@ -209,6 +210,16 @@ public class LoginWindowController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
+		
+		PreferenceHandler prefs = new PreferenceHandler();
+		
+		UserInfo globalUserInfo = prefs.getGlobalUserInfo();
+		
+		NickNameText.setText(globalUserInfo.getNickname());
+		secondChoiceText.setText(globalUserInfo.getSecondchoice());
+		thirdChoiceText.setText(globalUserInfo.getThirdchoice());
+		userNameText.setText(globalUserInfo.getUsername());
+		realNameText.setText(globalUserInfo.getRealname());
 	}		
 	
 	//sets up the leftmost treeview and opens the selected options-form
@@ -255,11 +266,15 @@ public class LoginWindowController implements Initializable {
 			String createUserErrorMsg = "";
 			try
 				{
+				
+					PreferenceHandler prefs = new PreferenceHandler();
 					UserInfo createdUser = new UserInfo();
 					createdUser.setUsername(userNameText.getText().toString());
 					createdUser.setNickname(NickNameText.getText().toString());
 					createdUser.setSecondchoice(secondChoiceText.getText().toString());
 					createdUser.setThirdchoice(thirdChoiceText.getText().toString());
+					
+					prefs.setGlobalUserInfo(createdUser);
 					
 					if (Helper.isEmptyOrNull(NickNameText.getText().toString())) {
 						createUserErrorMsg = "Nickname cannot be empty";

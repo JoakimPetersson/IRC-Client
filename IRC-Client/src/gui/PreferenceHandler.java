@@ -7,7 +7,7 @@ import network.UserInfo;
 public class PreferenceHandler {	
 	public void setGlobalUserInfo(UserInfo globalUserInfo) {
 		Preferences prefs;
-		prefs = Preferences.systemRoot().node("globalUserInfo");
+		prefs = Preferences.userRoot().node("globalUserInfo");
 		
 		prefs.put("NICKNAME", globalUserInfo.getNickname());
 		prefs.put("SECONDCHOICE", globalUserInfo.getSecondchoice());
@@ -18,7 +18,7 @@ public class PreferenceHandler {
 	
 	public UserInfo getGlobalUserInfo() {
 		Preferences prefs;
-		prefs = Preferences.systemRoot().node("globalUserInfo");
+		prefs = Preferences.userRoot().node("globalUserInfo");
 		
 		UserInfo globalUserInfo = new UserInfo();
 		globalUserInfo.setNickname(prefs.get("NICKNAME", ""));
