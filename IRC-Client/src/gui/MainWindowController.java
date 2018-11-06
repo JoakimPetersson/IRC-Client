@@ -99,7 +99,7 @@ public class MainWindowController implements Initializable {
     
     //Creates a treeview on the left side, showing the currently connected servers
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {		
+	public void initialize(URL location, ResourceBundle resources) {
 		CreateTree();		
 		
 		ListView<String> chanelUserList = new ListView<String>();
