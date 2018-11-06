@@ -210,11 +210,13 @@ public class LoginWindowController implements Initializable {
 		
 		UserInfo globalUserInfo = prefs.getGlobalUserInfo();
 		
-		NickNameText.setText(globalUserInfo.getNickname());
-		secondChoiceText.setText(globalUserInfo.getSecondchoice());
-		thirdChoiceText.setText(globalUserInfo.getThirdchoice());
-		userNameText.setText(globalUserInfo.getUsername());
-		realNameText.setText(globalUserInfo.getRealname());
+		if(globalUserInfo.getNickname() != null) {
+			NickNameText.setText(globalUserInfo.getNickname());
+			secondChoiceText.setText(globalUserInfo.getSecondchoice());
+			thirdChoiceText.setText(globalUserInfo.getThirdchoice());
+			userNameText.setText(globalUserInfo.getUsername());
+			realNameText.setText(globalUserInfo.getRealname());
+		}
 	}		
 	
 	//sets up the leftmost treeview and opens the selected options-form
