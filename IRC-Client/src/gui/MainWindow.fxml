@@ -72,7 +72,7 @@
             <Insets left="15.0" />
          </GridPane.margin></TextField>
       <Button fx:id="sendBtn" mnemonicParsing="false" onAction="#sendBtn_Click" text="Send" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-      <ScrollPane fx:id="chanelUserListScrollPane" hbarPolicy="NEVER" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+      <ScrollPane fx:id="channelUserListScrollPane" hbarPolicy="NEVER" GridPane.columnIndex="2" GridPane.rowIndex="4" />
       <Label text="Connected Servers" GridPane.halignment="CENTER" GridPane.rowIndex="3">
          <font>
             <Font size="18.0" />
