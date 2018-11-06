@@ -1,11 +1,14 @@
 package gui;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -21,19 +24,23 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import network.UserInfo;
 
-//TODO add hover transparancy on main menu
+//TODO add hover transparency on main menu
 //TODO add option to increase/decrease the fontsize
-//TODO add list of connected users in chanels
 
 
-public class MainWindowController implements Initializable {
+public class MainWindowController implements Initializable {	
+	
 
 	/******************************************************************************************
 	 * Properties
 	 ******************************************************************************************
 	 */
+	@FXML
+	private LoginWindowController login;
+	
 	@FXML
 	private GridPane gridPane;	
 	
@@ -73,9 +80,19 @@ public class MainWindowController implements Initializable {
 	public void AddCreatedUser(UserInfo userToAdd)
 		{
 				createdUsers.add(userToAdd);
-		}	
+		}
 	
-	ArrayList<String> testArray = new ArrayList<>();
+	private int fontSize;
+	
+	public int getFontSize()
+		{
+				return fontSize;
+		}
+
+	public void setFontSize(int fontSize)
+		{
+				this.fontSize = fontSize;
+		}
     
     /******************************************************************************************
      * Events
@@ -85,15 +102,14 @@ public class MainWindowController implements Initializable {
     //Creates a treeview on the left side, showing the currently connected servers
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		
-		CreateTree();
-		
-		
+		CreateTree();		
 		
 		ListView<String> chanelUserList = new ListView<String>();
 		chanelUserListScrollPane.setContent(chanelUserList);
 		chanelUserList.prefWidthProperty().bind(chanelUserListScrollPane.widthProperty());
-		//chanelUserList.prefHeightProperty().bind(treeview_main.heightProperty());		
-		chanelUserList.getItems().addAll(testArray);
+		chanelUserList.minHeightProperty().bind(chanelUserListScrollPane.heightProperty());	
+		//chanelUserList.setMinHeight(500);
+		
 		
 	}		
 
@@ -107,7 +123,7 @@ public class MainWindowController implements Initializable {
 	@FXML
     void menu_connect_click(ActionEvent event) {
 		LoginWindowController loginWindow = new LoginWindowController();
-		loginWindow.StartLoginScene();
+		loginWindow.Start(this);
     }
 	
 	
@@ -134,7 +150,6 @@ public class MainWindowController implements Initializable {
 	
     @FXML
     void addUserPh_Click(ActionEvent event) {
-    	testArray.add("User");
     	ListView<String> chanelUserList = (ListView<String>) chanelUserListScrollPane.getContent();
     	chanelUserList.getItems().add("User");
     }
@@ -179,7 +194,7 @@ public class MainWindowController implements Initializable {
 	}
 	
 	//creates a new chat-window and places it in a new tab
-	private Tab createChatTab(String s) {
+	public Tab createChatTab(String s) {
 		Tab tab = new Tab();
 		tab.setText(s);
 		chatTabs.getTabs().add(tab);
@@ -198,4 +213,14 @@ public class MainWindowController implements Initializable {
 		return tab;
 	}
 	
+	public int changeFontsize (int newSize) {
+		return newSize;
+	}	
+	
+	public void start(Stage stage) throws IOException {
+		GridPane grid = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));		
+		Scene scene = new Scene(grid);	
+		stage.setScene(scene);
+		stage.show();
+	}
 }

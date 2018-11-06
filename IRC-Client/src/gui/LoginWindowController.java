@@ -7,6 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,6 +18,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import network.UserInfo;
 
 //TODO Fix edit button on add-server window
@@ -25,7 +28,7 @@ public class LoginWindowController implements Initializable {
 	/****************************************************************************************
 	 * Properties
 	 ****************************************************************************************
-	 */
+	 */	
 	
 	 @FXML 
 	 private TextField addServerName;
@@ -95,7 +98,19 @@ public class LoginWindowController implements Initializable {
 	
 	 private TreeItem<String> serverRoot = new TreeItem<String>(); 
 	 
-	 private MainWindowController MainWindow;
+	 private int fontSize;
+		public int getFontSize()
+			{
+					return fontSize;
+			}
+
+		public void setFontSize(int fontSize)
+			{
+					this.fontSize = fontSize;
+			}
+		
+		private MainWindowController startWindow;
+			
 	 
 	 
 	 /****************************************************************************************
@@ -105,9 +120,11 @@ public class LoginWindowController implements Initializable {
 	 
 	//Sets up the menu on the left side with the needed options
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {		
-		MainWindow = new MainWindowController();
-		createTree();		
+	public void initialize(URL location, ResourceBundle resources) {
+		createTree();
+		//mainWindow.createChatTab("aklsdm");
+		//startWindow.createChatTab("asda");
+		
 	}
 	
 	//Hides all other forms and shows the "add-server form"
@@ -162,10 +179,8 @@ public class LoginWindowController implements Initializable {
 		}
 		catch (NullPointerException e) {
 			errorMsgServer.setText("No server selected, no server deleted");
-		}
-		
-		
-	}
+		}		
+	}	
 	//Takes then info from the "add-server"-form and adds to the server-treeview
 	//cannot be empty, whitespace or null
 	private void addServers() {
@@ -179,7 +194,9 @@ public class LoginWindowController implements Initializable {
 		
 	}
 	//Sets up the server- and user options screen
-	public void StartLoginScene() {
+	public void Start(MainWindowController mainWindow) {
+		System.out.println(mainWindow);
+		startWindow = mainWindow;
 		BorderPane grid;
 		try {
 			grid = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));		
@@ -200,14 +217,16 @@ public class LoginWindowController implements Initializable {
 
 	//Creates the leftmost treeview
 	private void setupTreeItems() {
-		TreeItem<String> mainRoot, server, usersetup;		
-		mainRoot = new TreeItem<String>("Connect");
+		TreeItem<String> mainRoot, server, usersetup, looks;		
+		mainRoot = new TreeItem<String>("Connections");
 		treeView_login.setRoot(mainRoot);				
 		treeViewServers.setRoot(serverRoot);
 		treeViewServers.setShowRoot(false);
+		treeView_login.setShowRoot(false);
 		
 		usersetup = makeBranch("User info", mainRoot);
 		server = makeBranch("Server", mainRoot);
+		looks = makeBranch("Appearance", mainRoot);
 		
 		
 	}	
@@ -216,7 +235,8 @@ public class LoginWindowController implements Initializable {
 		treeView_login.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {			
 			if (newValue == null) hideAllForms();				
 			if (newValue.getValue().equals("User info")) {hideAllForms(); userInfo.setVisible(true);}
-			if (newValue.getValue().equals("Server")) {hideAllForms(); serverInfo.setVisible(true);}						
+			if (newValue.getValue().equals("Server")) {hideAllForms(); serverInfo.setVisible(true);}
+			if (newValue.getValue().equals("Appearance")) {hideAllForms();}
 		});		
 	}
 	//Sets all forms to be invisible
@@ -256,7 +276,7 @@ public class LoginWindowController implements Initializable {
 						throw new NullPointerException();
 					}
 					
-					MainWindow.AddCreatedUser(createdUser);
+					//mainWindow.AddCreatedUser(createdUser);
 					createUserReporter.setText(createdUser.getUsername() + " Created");
 					
 				} catch (Exception e)
@@ -265,8 +285,6 @@ public class LoginWindowController implements Initializable {
 					e.printStackTrace();
 				}
 		}
-
-	
 
 }
 
