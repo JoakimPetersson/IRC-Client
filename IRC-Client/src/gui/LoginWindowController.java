@@ -1,6 +1,7 @@
 package gui;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import gui.Helper;
 import javafx.event.ActionEvent;
@@ -107,8 +108,12 @@ public class LoginWindowController implements Initializable {
 		public void setFontSize(int fontSize)
 			{
 					this.fontSize = fontSize;
-			}			
+			}
+		
+	  private ArrayList<ServerInfo> serverList = new ArrayList<>(); 
+		
 	 
+		
 	 
 	 /****************************************************************************************
 	  * Events																				 
@@ -135,9 +140,8 @@ public class LoginWindowController implements Initializable {
 	@FXML
     void addServerOKbtn_Click(ActionEvent event) {	
 		try {
-			if (!Helper.isEmptyOrNull(serverNameText.getText())) {
-			
-			createServer();
+			if (!Helper.isEmptyOrNull(serverNameText.getText())) {			
+			addServerToList(createServer());			
 			hideAllForms();
 			serverInfo.setVisible(true);
 			serverNameText.setText(null);
@@ -147,7 +151,7 @@ public class LoginWindowController implements Initializable {
 		catch (NullPointerException e) {
 		errorMsgAddServer.setText("You must enter a servername");
 		}
-	}    	
+	}
 	//removes the selected server or server-region when you click the delete-button
 	@FXML
     void serverDeleteBtn_Click(ActionEvent event) {
@@ -178,14 +182,35 @@ public class LoginWindowController implements Initializable {
 	}	
 	//Takes then info from the "add-server"-form a and adds to the server-treeview
 	//cannot be empty, whitespace or null
-	private void createServer() {
+	private ServerInfo createServer() {
 			ServerInfo currentServer = new ServerInfo();
 			currentServer.serverName = serverNameText.getText();
 			currentServer.serverAddress = serverIpAdress.getText();
 			currentServer.port = Integer.parseInt(serverPort.getText());
-		
-		
+			return currentServer;		
 	}
+	
+	private void addServerToList(ServerInfo server){
+			if (checkForDuplicate(server) == false) {
+			TreeItem<String> item = Helper.makeBranch(server.serverName, serverRoot);			
+			serverList.add(server);
+			System.out.println(server.serverName);
+			} else errorMsgAddServer.setText("Duplicate server found, rename");
+		}
+	
+	private boolean checkForDuplicate(ServerInfo server) {
+		boolean dupeCheck = false;
+		for (int i = 0; i < serverList.size(); i++)			
+			{				
+				ServerInfo user = serverList.get(i);
+				if (user.serverName.equals(server.serverName))
+					{
+						dupeCheck = true;
+					}
+			}
+		return dupeCheck;
+	}
+	
 	//Sets up the server- and user options screen
 	public void Start(MainWindowController mainWindow) {
 		System.out.println(mainWindow);
