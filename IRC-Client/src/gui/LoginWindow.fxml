@@ -43,7 +43,7 @@
                   <Label text="Second choice: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                   <Label text="Third choise: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                   <Label text="Username: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-                  <TextField fx:id="NickNameText" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="nickNameText" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <TextField fx:id="secondChoiceText" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <TextField fx:id="thirdChoiceText" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                   <TextField fx:id="userNameText" GridPane.columnIndex="2" GridPane.rowIndex="4" />
@@ -101,7 +101,7 @@
                   <Label fx:id="errorMsgServer" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                </children>
             </GridPane>
-            <GridPane fx:id="addServerInfo" prefHeight="400.0" prefWidth="481.0">
+            <GridPane fx:id="addServerInfo" prefHeight="400.0" prefWidth="481.0" visible="false">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />

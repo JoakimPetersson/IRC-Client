@@ -10,20 +10,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.control.TreeItem;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import network.UserInfo;
@@ -67,7 +61,7 @@ public class MainWindowController implements Initializable {
     private TextField chatTextIn;
     
     @FXML
-    private ScrollPane chanelUserListScrollPane;    
+    private ScrollPane channelUserListScrollPane;    
     
     private ArrayList<UserInfo> createdUsers = new ArrayList<UserInfo>();    
     public ArrayList<UserInfo> GetCreatedUsers()
@@ -103,12 +97,9 @@ public class MainWindowController implements Initializable {
 		CreateTree();		
 		
 		ListView<String> chanelUserList = new ListView<String>();
-		chanelUserListScrollPane.setContent(chanelUserList);
-		chanelUserList.prefWidthProperty().bind(chanelUserListScrollPane.widthProperty());
-		chanelUserList.minHeightProperty().bind(chanelUserListScrollPane.heightProperty());
-		
-		
-		
+		channelUserListScrollPane.setContent(chanelUserList);
+		chanelUserList.prefWidthProperty().bind(channelUserListScrollPane.widthProperty());
+		chanelUserList.minHeightProperty().bind(channelUserListScrollPane.heightProperty());		
 	}		
 
 	//Shuts down the app when you click the "close" button on the main-menu under "file"
@@ -140,8 +131,8 @@ public class MainWindowController implements Initializable {
 	
     @FXML
     void addUserPh_Click(ActionEvent event) {
-    	ListView<String> chanelUserList = (ListView<String>) chanelUserListScrollPane.getContent();
-    	chanelUserList.getItems().add("User");
+    	ListView<String> channelUserList = (ListView<String>) channelUserListScrollPane.getContent();
+    	channelUserList.getItems().add("User");
     }
 	
 	/******************************************************************************************
@@ -178,31 +169,11 @@ public class MainWindowController implements Initializable {
 	private void CreateTree() {		
 	    TreeItem<String> serverHeader = new TreeItem<>("Connected servers");	 	
 	    TreeItem<String> server = new TreeItem<>("Dudenet");
-	    TreeItem<String> chanel = Helper.makeBranch("#Buffbois", server);
+	    TreeItem<String> channel = Helper.makeBranch("#Buffbois", server);
 	    treeview_main.setRoot(serverHeader);
 	    treeview_main.setShowRoot(false);
 	    serverHeader.getChildren().add(server);		
-	}
-	
-	//creates a new chat-window and places it in a new tab
-	/*public Tab createChatTab(String s) {
-		Tab tab = new Tab();
-		tab.setText(s);
-		chatTabs.getTabs().add(tab);
-		AnchorPane anchor = new AnchorPane();		
-		tab.setContent(anchor);
-		ScrollPane chatScroll = new ScrollPane();
-		chatScroll.setHbarPolicy(ScrollBarPolicy.NEVER);
-		chatScroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		anchor.getChildren().add(chatScroll);	
-		chatScroll.minWidthProperty().bind(chatTabs.widthProperty());
-		chatScroll.prefHeightProperty().bind(chatTabs.heightProperty().subtract(29));		
-		Label l = new Label();
-		chatScroll.vvalueProperty().bind(l.heightProperty());
-		l.isWrapText();
-		chatScroll.setContent(l);
-		return tab;
-	}*/	
+	}	
 	
 	public void start(Stage stage) throws IOException {
 		GridPane grid = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));		

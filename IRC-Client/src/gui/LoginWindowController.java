@@ -40,7 +40,7 @@ public class LoginWindowController implements Initializable {
 	 private TextField serverRegionText;
 	 
 	 @FXML
-	 private TextField NickNameText; // TODO change N to n
+	 private TextField nickNameText;
 
 	 @FXML
 	 private TextField secondChoiceText;
@@ -182,6 +182,7 @@ public class LoginWindowController implements Initializable {
 			ServerInfo currentServer = new ServerInfo();
 			currentServer.serverName = serverNameText.getText();
 			currentServer.serverAddress = serverIpAdress.getText();
+			currentServer.port = Integer.parseInt(serverPort.getText());
 		
 		
 	}
@@ -235,12 +236,12 @@ public class LoginWindowController implements Initializable {
 				
 				UserInfo globalUserInfo = prefs.getGlobalUserInfo();
 				
-				if(NickNameText == null) {
+				if(nickNameText == null) {
 					System.out.println("NickNameText is null");
 				}
 				
 				if(globalUserInfo.getNickname() != null) {
-					NickNameText.setText(globalUserInfo.getNickname());
+					nickNameText.setText(globalUserInfo.getNickname());
 					secondChoiceText.setText(globalUserInfo.getSecondchoice());
 					thirdChoiceText.setText(globalUserInfo.getThirdchoice());
 					userNameText.setText(globalUserInfo.getUsername());
@@ -269,14 +270,14 @@ public class LoginWindowController implements Initializable {
 					PreferenceHandler prefs = new PreferenceHandler();
 					UserInfo createdUser = new UserInfo();
 					createdUser.setUsername(userNameText.getText().toString());
-					createdUser.setNickname(NickNameText.getText().toString());
+					createdUser.setNickname(nickNameText.getText().toString());
 					createdUser.setSecondchoice(secondChoiceText.getText().toString());
 					createdUser.setThirdchoice(thirdChoiceText.getText().toString());
 					createdUser.setRealname(realNameText.getText().toString());
 					
 					prefs.setGlobalUserInfo(createdUser);
 					
-					if (Helper.isEmptyOrNull(NickNameText.getText().toString())) {
+					if (Helper.isEmptyOrNull(nickNameText.getText().toString())) {
 						createUserErrorMsg = "Nickname cannot be empty";
 						throw new NullPointerException();
 					}
