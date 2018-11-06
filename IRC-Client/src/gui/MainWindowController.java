@@ -107,8 +107,7 @@ public class MainWindowController implements Initializable {
 		ListView<String> chanelUserList = new ListView<String>();
 		chanelUserListScrollPane.setContent(chanelUserList);
 		chanelUserList.prefWidthProperty().bind(chanelUserListScrollPane.widthProperty());
-		chanelUserList.minHeightProperty().bind(chanelUserListScrollPane.heightProperty());	
-		//chanelUserList.setMinHeight(500);
+		chanelUserList.minHeightProperty().bind(chanelUserListScrollPane.heightProperty());
 		
 		
 	}		
