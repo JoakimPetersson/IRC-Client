@@ -7,8 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,7 +16,6 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import network.ServerInfo;
 import network.UserInfo;
 
@@ -179,7 +176,7 @@ public class LoginWindowController implements Initializable {
 			errorMsgServer.setText("No server selected, no server deleted");
 		}		
 	}	
-	//Takes then info from the "add-server"-form a nd adds to the server-treeview
+	//Takes then info from the "add-server"-form a and adds to the server-treeview
 	//cannot be empty, whitespace or null
 	private void createServer() {
 			ServerInfo currentServer = new ServerInfo();
