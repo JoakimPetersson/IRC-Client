@@ -206,17 +206,7 @@ public class LoginWindowController implements Initializable {
 			e.printStackTrace();
 		}	
 		
-		PreferenceHandler prefs = new PreferenceHandler();
-		
-		UserInfo globalUserInfo = prefs.getGlobalUserInfo();
-		
-		if(globalUserInfo.getNickname() != null) {
-			NickNameText.setText(globalUserInfo.getNickname());
-			secondChoiceText.setText(globalUserInfo.getSecondchoice());
-			thirdChoiceText.setText(globalUserInfo.getThirdchoice());
-			userNameText.setText(globalUserInfo.getUsername());
-			realNameText.setText(globalUserInfo.getRealname());
-		}
+
 	}		
 	
 	//sets up the leftmost treeview and opens the selected options-form
@@ -244,7 +234,26 @@ public class LoginWindowController implements Initializable {
 	private void menuSelectCheck() {
 		treeView_login.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {			
 			if (newValue == null) hideAllForms();				
-			if (newValue.getValue().equals("User info")) {hideAllForms(); userInfo.setVisible(true);}
+			if (newValue.getValue().equals("User info")) {
+				hideAllForms(); 
+				userInfo.setVisible(true);
+				
+				PreferenceHandler prefs = new PreferenceHandler();
+				
+				UserInfo globalUserInfo = prefs.getGlobalUserInfo();
+				
+				if(NickNameText == null) {
+					System.out.println("NickNameText is null");
+				}
+				
+				if(globalUserInfo.getNickname() != null) {
+					NickNameText.setText(globalUserInfo.getNickname());
+					secondChoiceText.setText(globalUserInfo.getSecondchoice());
+					thirdChoiceText.setText(globalUserInfo.getThirdchoice());
+					userNameText.setText(globalUserInfo.getUsername());
+					realNameText.setText(globalUserInfo.getRealname());
+				}
+			}
 			if (newValue.getValue().equals("Server")) {hideAllForms(); serverInfo.setVisible(true);}
 			if (newValue.getValue().equals("Appearance")) {hideAllForms();}
 		});		
@@ -270,6 +279,7 @@ public class LoginWindowController implements Initializable {
 					createdUser.setNickname(NickNameText.getText().toString());
 					createdUser.setSecondchoice(secondChoiceText.getText().toString());
 					createdUser.setThirdchoice(thirdChoiceText.getText().toString());
+					createdUser.setRealname(realNameText.getText().toString());
 					
 					prefs.setGlobalUserInfo(createdUser);
 					
