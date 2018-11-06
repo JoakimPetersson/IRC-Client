@@ -18,6 +18,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyEvent;
@@ -29,6 +30,8 @@ import network.UserInfo;
 
 //TODO add hover transparency on main menu
 //TODO add option to increase/decrease the fontsize
+//TODO remake the tabs into treeitems for chanels
+//TODO "Save state" for chanels and such
 
 
 public class MainWindowController implements Initializable {	
@@ -38,6 +41,10 @@ public class MainWindowController implements Initializable {
 	 * Properties
 	 ******************************************************************************************
 	 */
+	
+    @FXML
+    private TextArea chatTextOut;
+    
 	@FXML
 	private LoginWindowController login;
 	
@@ -51,13 +58,7 @@ public class MainWindowController implements Initializable {
     private MenuItem menu_close;
     
     @FXML
-    private TreeView<String> treeview_main;
-    
-    @FXML
-    private TabPane chatTabs;
-    
-    @FXML
-    private Button addTestTab;   
+    private TreeView<String> treeview_main;  
     
     @FXML
     private Button sendBtn;
@@ -66,7 +67,7 @@ public class MainWindowController implements Initializable {
     private Button addUserPh;
     
     @FXML
-    private TextField chatText;
+    private TextField chatTextIn;
     
     @FXML
     private ScrollPane chanelUserListScrollPane;    
@@ -101,13 +102,17 @@ public class MainWindowController implements Initializable {
     
     //Creates a treeview on the left side, showing the currently connected servers
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {		
+	public void initialize(URL location, ResourceBundle resources) {	
+		
+		chatTextOut.setEditable(false);
+		
 		CreateTree();		
 		
 		ListView<String> chanelUserList = new ListView<String>();
 		chanelUserListScrollPane.setContent(chanelUserList);
 		chanelUserList.prefWidthProperty().bind(chanelUserListScrollPane.widthProperty());
 		chanelUserList.minHeightProperty().bind(chanelUserListScrollPane.heightProperty());
+		
 		
 		
 	}		
@@ -123,14 +128,6 @@ public class MainWindowController implements Initializable {
     void menu_connect_click(ActionEvent event) {
 		LoginWindowController loginWindow = new LoginWindowController();
 		loginWindow.Start(this);
-    }
-	
-	
-	//Create a tab for testing when you click the "create tab"-button
-	@FXML
-    public void addTestTab_Click(ActionEvent event) {		
-		createChatTab("Test");
-		
     }
 	
 	// Adding text from the chat-text to the chat-window when you click the "send" button
@@ -161,17 +158,17 @@ public class MainWindowController implements Initializable {
 	//Takes the text from the chat-text and adds to the chat-window, if null, empty or whitespace nothing happens 
 	private void sendChatMessage() {
 		try {
-			if (Helper.isEmptyOrNull(chatText.getText())) throw new NullPointerException();
-		Label currentLabel = getActiveLabel();
-		currentLabel.setText(currentLabel.getText() + chatText.getText().toString() + "\n");
-		chatText.setText(null);
+			if (Helper.isEmptyOrNull(chatTextIn.getText())) throw new NullPointerException();
+		//Label currentLabel = getActiveLabel();
+		//currentLabel.setText(currentLabel.getText() + chatText.getText().toString() + "\n");
+		chatTextIn.setText(null);
 		} catch (NullPointerException e) {
 			// TODO: handle exception
 		}
 	}
 	
 	//sets the "currentLabel" variable to the currently active chat-window
-	private Label getActiveLabel() {
+	/*private Label getActiveLabel() {
 		// Getting The Anchor-pane in the active tab
 		AnchorPane currentPane = ((AnchorPane)chatTabs.getSelectionModel().getSelectedItem().getContent());
 		
@@ -181,19 +178,20 @@ public class MainWindowController implements Initializable {
 		// Getting The Label in the active tab
 		Label currentLabel = (Label)currentScroll.getContent();
 		return currentLabel;
-	}
+	}*/
 	
 	//sets up the treeitem-menu to the left of the app
-	private void CreateTree() {
-		
+	private void CreateTree() {		
 	    TreeItem<String> serverHeader = new TreeItem<>("Connected servers");	 	
-	    TreeItem<String> server = new TreeItem<>("Dudenet");	 
+	    TreeItem<String> server = new TreeItem<>("Dudenet");
+	    TreeItem<String> chanel = Helper.makeBranch("#Buffbois", server);
 	    treeview_main.setRoot(serverHeader);
+	    treeview_main.setShowRoot(false);
 	    serverHeader.getChildren().add(server);		
 	}
 	
 	//creates a new chat-window and places it in a new tab
-	public Tab createChatTab(String s) {
+	/*public Tab createChatTab(String s) {
 		Tab tab = new Tab();
 		tab.setText(s);
 		chatTabs.getTabs().add(tab);
@@ -210,11 +208,7 @@ public class MainWindowController implements Initializable {
 		l.isWrapText();
 		chatScroll.setContent(l);
 		return tab;
-	}
-	
-	public int changeFontsize (int newSize) {
-		return newSize;
-	}	
+	}*/	
 	
 	public void start(Stage stage) throws IOException {
 		GridPane grid = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));		

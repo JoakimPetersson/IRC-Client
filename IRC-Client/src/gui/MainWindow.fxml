@@ -2,17 +2,19 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
 <GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainWindowController">
   <columnConstraints>
@@ -25,6 +27,7 @@
     <RowConstraints />
     <RowConstraints percentHeight="2.5" vgrow="SOMETIMES" />
       <RowConstraints percentHeight="5.5" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" percentHeight="5.5" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints percentHeight="84.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" percentHeight="8.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
@@ -57,20 +60,29 @@
             <Button mnemonicParsing="false" />
             <Button mnemonicParsing="false" />
             <Button mnemonicParsing="false" />
-            <Button fx:id="addTestTab" mnemonicParsing="false" onAction="#addTestTab_Click" text="Add tab (Placeholder)" />
             <Button fx:id="addUserPh" mnemonicParsing="false" onAction="#addUserPh_Click" text="Add User (Placeholder)" />
         </items>
       </ToolBar>
-      <TreeView fx:id="treeview_main" GridPane.rowIndex="3">
+      <TreeView fx:id="treeview_main" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets />
          </GridPane.margin></TreeView>
-      <TextField fx:id="chatText" onKeyPressed="#chatText_OnKeyDown" GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <TextField fx:id="chatTextIn" onKeyPressed="#chatText_OnKeyDown" GridPane.columnIndex="1" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets left="15.0" />
          </GridPane.margin></TextField>
-      <Button fx:id="sendBtn" mnemonicParsing="false" onAction="#sendBtn_Click" text="Send" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-      <TabPane fx:id="chatTabs" tabClosingPolicy="ALL_TABS" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <ScrollPane fx:id="chanelUserListScrollPane" hbarPolicy="NEVER" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+      <Button fx:id="sendBtn" mnemonicParsing="false" onAction="#sendBtn_Click" text="Send" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+      <ScrollPane fx:id="chanelUserListScrollPane" hbarPolicy="NEVER" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+      <TextArea fx:id="chatTextOut" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.rowSpan="2" />
+      <Label text="Connected Servers" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label text="Users" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </GridPane>

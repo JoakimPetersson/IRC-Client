@@ -22,6 +22,8 @@ import javafx.stage.Window;
 import network.UserInfo;
 
 //TODO Fix edit button on add-server window
+//TODO add connect button to serverlist
+//TODO make listview instead of label on the server-form
 
 public class LoginWindowController implements Initializable {
 	
@@ -224,9 +226,9 @@ public class LoginWindowController implements Initializable {
 		treeViewServers.setShowRoot(false);
 		treeView_login.setShowRoot(false);
 		
-		usersetup = makeBranch("User info", mainRoot);
-		server = makeBranch("Server", mainRoot);
-		looks = makeBranch("Appearance", mainRoot);
+		usersetup = Helper.makeBranch("User info", mainRoot);
+		server = Helper.makeBranch("Server", mainRoot);
+		looks = Helper.makeBranch("Appearance", mainRoot);
 		
 		
 	}	
@@ -244,14 +246,7 @@ public class LoginWindowController implements Initializable {
 		userInfo.setVisible(false);
 		serverInfo.setVisible(false);
 		addServerInfo.setVisible(false);
-	}
-	
-	//Generates a new branch for the server-treeview
-	public TreeItem<String> makeBranch(String title, TreeItem<String> parent){
-		TreeItem<String> item = new TreeItem<String>(title);
-		parent.getChildren().add(item);
-		return item;
-	}
+	}	
 	
 	//Takes the info from the create user-form and sets up a new user
 	//Username and/or nickname cannot be empty, whitespace or null, shows error-message on screen 

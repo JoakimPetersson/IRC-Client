@@ -53,7 +53,7 @@
                   <Label fx:id="createUserReporter" alignment="TOP_LEFT" contentDisplay="TOP" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM" />
                </children>
             </GridPane>
-            <GridPane fx:id="serverInfo" layoutX="6.0" layoutY="1.0" prefHeight="400.0" prefWidth="474.0" visible="false">
+            <GridPane fx:id="serverInfo" layoutX="6.0" layoutY="1.0" prefHeight="400.0" prefWidth="474.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="100.0" />
@@ -76,17 +76,22 @@
                   </ScrollPane>
                   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2">
                      <children>
-                        <Button fx:id="addServerBtn" mnemonicParsing="false" onAction="#addServerBtn_Click" prefWidth="55.0" text="Add">
+                        <Button fx:id="addServerBtn" mnemonicParsing="false" onAction="#addServerBtn_Click" prefWidth="60.0" text="Add">
                            <VBox.margin>
                               <Insets left="2.0" top="2.0" />
                            </VBox.margin>
                         </Button>
-                        <Button minWidth="-Infinity" mnemonicParsing="false" prefWidth="55.0" text="Edit">
+                        <Button fx:id="serverEditBtn" mnemonicParsing="false" prefWidth="60.0" text="Edit">
                            <VBox.margin>
                               <Insets left="2.0" top="2.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="serverDeleteBtn" minWidth="-Infinity" mnemonicParsing="false" onAction="#serverDeleteBtn_Click" prefWidth="55.0" text="Delete">
+                        <Button fx:id="serverDeleteBtn" mnemonicParsing="false" onAction="#serverDeleteBtn_Click" prefWidth="60.0" text="Delete">
+                           <VBox.margin>
+                              <Insets left="2.0" top="2.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="serverConnectBtn" mnemonicParsing="false" prefWidth="60.0" text="Connect">
                            <VBox.margin>
                               <Insets left="2.0" top="2.0" />
                            </VBox.margin>
@@ -113,15 +118,13 @@
               </rowConstraints>
                <children>
                   <Label fx:id="errorMsgAddServer" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.valignment="BOTTOM" />
-                  <Button fx:id="addServerOKbtn" mnemonicParsing="false" onAction="#addServerOKbtn_Click" text="Add" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP" />
+                  <Button fx:id="addServerOKbtn" mnemonicParsing="false" onAction="#addServerOKbtn_Click" text="Add" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP" />
                   <Label text="Server name: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                   <TextField fx:id="serverNameText" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Label text="Region: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-                  <TextField fx:id="serverRegionText" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <TextField fx:id="serverIpAdress" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                  <TextField fx:id="serverPort" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <Label text="IP-Adress: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-                  <Label text="Port: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+                  <TextField fx:id="serverIpAdress" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <TextField fx:id="serverPort" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <Label text="IP-Adress: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <Label text="Port: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                </children>
             </GridPane>
          </children>
