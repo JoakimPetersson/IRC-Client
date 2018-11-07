@@ -35,6 +35,7 @@ public class PreferenceHandler {
 		return globalUserInfo;
 	}
 	
+	// TODO test this code when Dowie is done with the serverwindow
 	public ArrayList<ServerInfo> getAllServerInfo(){		
 		Preferences prefs;
 		prefs = Preferences.userRoot().node("serverInfo");

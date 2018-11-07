@@ -160,9 +160,38 @@ public class LoginWindowController implements Initializable {
 	
 	//Takes the info from the "create user"-form and creates the user
 	//Adds the created user to the "createdUser-list"
+	
+	//Takes the info from the create user-form and sets up a new user
+	//Username and/or nickname cannot be empty, whitespace or null, shows error-message on screen 
 	@FXML
     void addUserOk_Click(ActionEvent event) {
-    	CreateUser();    	
+		String createUserErrorMsg = "";
+		try
+			{
+				setGlobalUserInfo();
+				
+				if (Helper.isEmptyOrNull(nickNameText.getText().toString())) {
+					createUserErrorMsg = "Nickname cannot be empty";
+					throw new NullPointerException();
+				}
+				
+				else if (Helper.isEmptyOrNull(userNameText.getText())){
+					createUserErrorMsg = "Username cannot be empty";
+					throw new NullPointerException();
+				}
+				
+				//mainWindow.AddCreatedUser(createdUser);
+				// TODO Don't think we need this message
+				// createUserReporter.setText(createdUser.getUsername() + " Created");
+				
+				
+				// By calling fillUserInfoFieldsFromPrefs() we make sure the user sees what the actual nickname will be when the forbidden characters are removed
+				fillUserInfoFieldsFromPrefs();
+			} catch (Exception e)
+			{
+				createUserReporter.setText(createUserErrorMsg);
+				e.printStackTrace();
+			}	
     }	
 	    
 	/****************************************************************************************
@@ -257,21 +286,8 @@ public class LoginWindowController implements Initializable {
 				hideAllForms(); 
 				userInfo.setVisible(true);
 				
-				PreferenceHandler prefs = new PreferenceHandler();
-				
-				UserInfo globalUserInfo = prefs.getGlobalUserInfo();
-				
-				if(nickNameText == null) {
-					System.out.println("NickNameText is null");
-				}
-				
-				if(globalUserInfo.getNickname() != null) {
-					nickNameText.setText(globalUserInfo.getNickname());
-					secondChoiceText.setText(globalUserInfo.getSecondchoice());
-					thirdChoiceText.setText(globalUserInfo.getThirdchoice());
-					userNameText.setText(globalUserInfo.getUsername());
-					realNameText.setText(globalUserInfo.getRealname());
-				}
+				fillUserInfoFieldsFromPrefs();
+
 			}
 			if (newValue.getValue().equals("Server")) {hideAllForms(); serverInfo.setVisible(true);}
 			if (newValue.getValue().equals("Appearance")) {hideAllForms();}
@@ -284,43 +300,39 @@ public class LoginWindowController implements Initializable {
 		addServerInfo.setVisible(false);
 	}	
 	
-	//Takes the info from the create user-form and sets up a new user
-	//Username and/or nickname cannot be empty, whitespace or null, shows error-message on screen 
-	private void CreateUser()
+
+	private void setGlobalUserInfo()
 		{
-			String createUserErrorMsg = "";
-			try
-				{
-				
-					PreferenceHandler prefs = new PreferenceHandler();
-					UserInfo createdUser = new UserInfo();
-					createdUser.setUsername(userNameText.getText().toString());
-					createdUser.setNickname(nickNameText.getText().toString());
-					createdUser.setSecondchoice(secondChoiceText.getText().toString());
-					createdUser.setThirdchoice(thirdChoiceText.getText().toString());
-					createdUser.setRealname(realNameText.getText().toString());
-					
-					prefs.setGlobalUserInfo(createdUser);
-					
-					if (Helper.isEmptyOrNull(nickNameText.getText().toString())) {
-						createUserErrorMsg = "Nickname cannot be empty";
-						throw new NullPointerException();
-					}
-					
-					else if (Helper.isEmptyOrNull(userNameText.getText())){
-						createUserErrorMsg = "Username cannot be empty";
-						throw new NullPointerException();
-					}
-					
-					//mainWindow.AddCreatedUser(createdUser);
-					createUserReporter.setText(createdUser.getUsername() + " Created");
-					
-				} catch (Exception e)
-				{
-					createUserReporter.setText(createUserErrorMsg);
-					e.printStackTrace();
-				}
+			PreferenceHandler prefs = new PreferenceHandler();
+			UserInfo createdUser = new UserInfo();
+			createdUser.setUsername(userNameText.getText().toString());
+			createdUser.setNickname(nickNameText.getText().toString());
+			createdUser.setSecondchoice(secondChoiceText.getText().toString());
+			createdUser.setThirdchoice(thirdChoiceText.getText().toString());
+			createdUser.setRealname(realNameText.getText().toString());
+			prefs.setGlobalUserInfo(createdUser);
 		}
+	
+	private UserInfo getGlobalUserInfo() {
+		PreferenceHandler prefs = new PreferenceHandler();
+		return prefs.getGlobalUserInfo();
+	}
+	
+	private void fillUserInfoFieldsFromPrefs() {		
+		UserInfo globalUserInfo = getGlobalUserInfo();
+		
+		if(nickNameText == null) {
+			System.out.println("NickNameText is null");
+		}
+		
+		if(globalUserInfo.getNickname() != null) {
+			nickNameText.setText(globalUserInfo.getNickname());
+			secondChoiceText.setText(globalUserInfo.getSecondchoice());
+			thirdChoiceText.setText(globalUserInfo.getThirdchoice());
+			userNameText.setText(globalUserInfo.getUsername());
+			realNameText.setText(globalUserInfo.getRealname());
+		}
+	}
 
 }
 
