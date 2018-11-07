@@ -3,17 +3,15 @@ package gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.beans.DefaultProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import network.UserInfo;
 
-public class UserInfoController implements Initializable {
+public class UserInfoController {
 	
 	 @FXML
 	 private GridPane userInfo;
@@ -108,7 +106,16 @@ private void fillUserInfoFieldsFromPrefs() {
 	}
 }
 
-@Override
+
+public void setVisible(boolean bool) {
+	if(bool) {
+		fillUserInfoFieldsFromPrefs();
+	}
+	
+	userInfo.setVisible(bool);
+}
+
+
 public void initialize(URL arg0, ResourceBundle arg1) {
 	// TODO Auto-generated method stub
 	
