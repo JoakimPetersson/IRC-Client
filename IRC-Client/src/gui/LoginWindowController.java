@@ -48,21 +48,6 @@ public class LoginWindowController implements Initializable {
 	 private TextField serverRegionText;
 	 
 	 @FXML
-	 private TextField nickNameText;
-
-	 @FXML
-	 private TextField secondChoiceText;
-
-	 @FXML
-	 private TextField thirdChoiceText;
-
-	 @FXML
-	 private TextField userNameText;
-	 
-	 @FXML
-	 private TextField realNameText;
-	 
-	 @FXML
 	 private TextField serverIpAdress;
 
 	 @FXML
@@ -70,9 +55,6 @@ public class LoginWindowController implements Initializable {
     
 	 @FXML
 	 private TreeView<String> treeView_login;
-	 
-	 @FXML
-	 private GridPane userInfo;
 	 
 	 @FXML
 	 private GridPane serverInfo;
@@ -93,16 +75,10 @@ public class LoginWindowController implements Initializable {
 	 private Button serverEditBtn;
 	 
 	 @FXML
-	 private Button addUserOk;
-	 
-	 @FXML
 	 private Label errorMsgAddServer;
 	 
 	 @FXML
 	 private Label errorMsgServer;	
-	 
-	 @FXML
-	 private Label createUserReporter;
 	 
 	 @FXML
 	 private ListView<String> serverListview; 
@@ -111,7 +87,9 @@ public class LoginWindowController implements Initializable {
 	 private ScrollPane serverScrollPane;
 		
 	 private ArrayList<ServerInfo> serverList = new ArrayList<>(); 
-		
+	
+	 @FXML
+	 private UserInfoController userWindowController;
 	 
 		
 	 
@@ -155,36 +133,7 @@ public class LoginWindowController implements Initializable {
 	
 	//Takes the info from the create user-form and sets up a new user
 	//Username and/or nickname cannot be empty, whitespace or null, shows error-message on screen 
-	@FXML
-    void addUserOk_Click(ActionEvent event) {
-		String createUserErrorMsg = "";
-		try
-			{
-				setGlobalUserInfo();
-				
-				if (Helper.isEmptyOrNull(nickNameText.getText().toString())) {
-					createUserErrorMsg = "Nickname cannot be empty";
-					throw new NullPointerException();
-				}
-				
-				else if (Helper.isEmptyOrNull(userNameText.getText())){
-					createUserErrorMsg = "Username cannot be empty";
-					throw new NullPointerException();
-				}
-				
-				//mainWindow.AddCreatedUser(createdUser);
-				// TODO Don't think we need this message
-				// createUserReporter.setText(createdUser.getUsername() + " Created");
-				
-				
-				// By calling fillUserInfoFieldsFromPrefs() we make sure the user sees what the actual nickname will be when the forbidden characters are removed
-				fillUserInfoFieldsFromPrefs();
-			} catch (Exception e)
-			{
-				createUserReporter.setText(createUserErrorMsg);
-				e.printStackTrace();
-			}	
-    }	
+
 	
 
     @FXML
@@ -322,9 +271,9 @@ public class LoginWindowController implements Initializable {
 			if (newValue == null) hideAllForms();				
 			if (newValue.getValue().equals("User info")) {
 				hideAllForms(); 
-				userInfo.setVisible(true);
+				//userInfo.setVisible(true);
 				
-				fillUserInfoFieldsFromPrefs();
+				//fillUserInfoFieldsFromPrefs();
 
 			}
 			if (newValue.getValue().equals("Server")) {hideAllForms(); serverInfo.setVisible(true);}
@@ -333,44 +282,13 @@ public class LoginWindowController implements Initializable {
 	}
 	//Sets all forms to be invisible
 	private void hideAllForms() {
-		userInfo.setVisible(false);
+		//userInfo.setVisible(false);
 		serverInfo.setVisible(false);
 		addServerInfo.setVisible(false);
 	}	
 	
 
-	private void setGlobalUserInfo()
-		{
-			PreferenceHandler prefs = new PreferenceHandler();
-			UserInfo createdUser = new UserInfo();
-			createdUser.setUsername(userNameText.getText().toString());
-			createdUser.setNickname(nickNameText.getText().toString());
-			createdUser.setSecondchoice(secondChoiceText.getText().toString());
-			createdUser.setThirdchoice(thirdChoiceText.getText().toString());
-			createdUser.setRealname(realNameText.getText().toString());
-			prefs.setGlobalUserInfo(createdUser);
-		}
-	
-	private UserInfo getGlobalUserInfo() {
-		PreferenceHandler prefs = new PreferenceHandler();
-		return prefs.getGlobalUserInfo();
-	}
-	
-	private void fillUserInfoFieldsFromPrefs() {		
-		UserInfo globalUserInfo = getGlobalUserInfo();
-		
-		if(nickNameText == null) {
-			System.out.println("NickNameText is null");
-		}
-		
-		if(globalUserInfo.getNickname() != null) {
-			nickNameText.setText(globalUserInfo.getNickname());
-			secondChoiceText.setText(globalUserInfo.getSecondchoice());
-			thirdChoiceText.setText(globalUserInfo.getThirdchoice());
-			userNameText.setText(globalUserInfo.getUsername());
-			realNameText.setText(globalUserInfo.getRealname());
-		}
-	}
+
 
 	private void editServer()
 		{
