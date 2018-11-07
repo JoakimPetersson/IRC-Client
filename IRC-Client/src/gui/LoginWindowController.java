@@ -3,6 +3,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import javax.management.RuntimeErrorException;
+
+import com.sun.javafx.scene.layout.region.SliceSequenceConverter;
+
 import gui.Helper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +16,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -21,8 +29,7 @@ import network.ServerInfo;
 import network.UserInfo;
 
 //TODO Fix edit button on add-server window
-//TODO add connect button to serverlist
-//TODO make listview instead of label on the server-form
+//TODO Finish the edit function
 
 public class LoginWindowController implements Initializable {
 	
@@ -65,9 +72,6 @@ public class LoginWindowController implements Initializable {
 	 private TreeView<String> treeView_login;
 	 
 	 @FXML
-	 private TreeView<String> treeViewServers;
-	 
-	 @FXML
 	 private GridPane userInfo;
 	 
 	 @FXML
@@ -83,7 +87,10 @@ public class LoginWindowController implements Initializable {
 	 private Button addServerOKbtn;
 	 
 	 @FXML
-	 private Button serverDeleteBtn;
+	 private Button serverDeleteBtn; 
+
+	 @FXML
+	 private Button serverEditBtn;
 	 
 	 @FXML
 	 private Button addUserOk;
@@ -96,21 +103,14 @@ public class LoginWindowController implements Initializable {
 	 
 	 @FXML
 	 private Label createUserReporter;
-	
-	 private TreeItem<String> serverRoot = new TreeItem<String>(); 
 	 
-	 private int fontSize;
-		public int getFontSize()
-			{
-					return fontSize;
-			}
-
-		public void setFontSize(int fontSize)
-			{
-					this.fontSize = fontSize;
-			}
+	 @FXML
+	 private ListView<String> serverListview; 
+	 
+	 @FXML
+	 private ScrollPane serverScrollPane;
 		
-	  private ArrayList<ServerInfo> serverList = new ArrayList<>(); 
+	 private ArrayList<ServerInfo> serverList = new ArrayList<>(); 
 		
 	 
 		
@@ -124,7 +124,9 @@ public class LoginWindowController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		createTree();
-		
+		serverListview.minHeightProperty().bind(serverScrollPane.heightProperty());
+		serverListview.maxWidthProperty().bind(serverScrollPane.widthProperty());
+		serverScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 	}
 	
 	//Hides all other forms and shows the "add-server form"
@@ -139,19 +141,9 @@ public class LoginWindowController implements Initializable {
 	//Hides all forms then shows the currently added servers
 	@FXML
     void addServerOKbtn_Click(ActionEvent event) {	
-		try {
-			if (!Helper.isEmptyOrNull(serverNameText.getText())) {			
-			addServerToList(createServer());			
-			hideAllForms();
-			serverInfo.setVisible(true);
-			serverNameText.setText(null);
-			serverRegionText.setText(null);
-			}else throw new NullPointerException();
-		}
-		catch (NullPointerException e) {
-		errorMsgAddServer.setText("You must enter a servername");
-		}
+    	CreateServer();
 	}
+	
 	//removes the selected server or server-region when you click the delete-button
 	@FXML
     void serverDeleteBtn_Click(ActionEvent event) {
@@ -193,51 +185,100 @@ public class LoginWindowController implements Initializable {
 				e.printStackTrace();
 			}	
     }	
+	
+
+    @FXML
+    void serverEditBtn_Click(ActionEvent event) {
+    	editServer();
+    	
+    	
+    }
 	    
 	/****************************************************************************************
-	 * Methods																				
+	 * Methods	 
 	 ****************************************************************************************
 	 */
+	
+	//Attempts to create the server based on the information filled out in the add-server form
+	//Throws exception when any field is empty or if a duplicate server-name exists
+	private void CreateServer()
+		{
+			String errorMessage = null;
+			try {
+				if (Helper.isEmptyOrNull(serverNameText.getText())) {
+					errorMessage = "Server name cannot be empty";
+					throw new Exception();	
+					
+				} else if (Helper.isEmptyOrNull(serverIpAdress.getText())) {
+					errorMessage = "Server adress cannot be empty";
+					throw new Exception();
+					
+				} else if (Helper.isEmptyOrNull(serverPort.getText())) {
+					errorMessage = "Server port cannot be empty";
+					throw new Exception();
+				}				
+				else {					
+				ServerInfo currentServer = new ServerInfo();				
+				addServerInfo(currentServer);			
+				
+				if (!isNotDuplicate(currentServer)) {				
+					errorMessage = "Server with that name already exists";
+					throw new Exception();
+					
+				} else { 
+					addServerToList(currentServer);
+					hideAllForms();
+					serverInfo.setVisible(true);
+					serverNameText.setText(null);
+					serverIpAdress.setText(null);
+					serverPort.setText(null);
+					serverRegionText.setText(null);					
+				}				
+				}
+			}
+			catch (Exception e) {
+			errorMsgAddServer.setText(errorMessage);			
+			}
+		}
+	
 	//Looks up what server is currently selected and removes it from the treeview
-	//Shows error-message if noone is selected
+	//Shows error-message if none is selected
 	private void removeSelectedItem() {
-		TreeItem<?> selected = treeViewServers.getSelectionModel().getSelectedItem();
+		String selected = serverListview.getSelectionModel().getSelectedItem();
 		try {
-		selected.getParent().getChildren().remove(selected);
+		serverListview.getItems().remove(selected);
 		}
 		catch (NullPointerException e) {
 			errorMsgServer.setText("No server selected, no server deleted");
 		}		
-	}	
+	}
+	
 	//Takes then info from the "add-server"-form a and adds to the server-treeview
 	//cannot be empty, whitespace or null
-	private ServerInfo createServer() {
-			ServerInfo currentServer = new ServerInfo();
+	private ServerInfo addServerInfo(ServerInfo currentServer) {
 			currentServer.serverName = serverNameText.getText();
 			currentServer.serverAddress = serverIpAdress.getText();
 			currentServer.port = Integer.parseInt(serverPort.getText());
 			return currentServer;		
 	}
 	
-	private void addServerToList(ServerInfo server){
-			if (checkForDuplicate(server) == false) {
-			TreeItem<String> item = Helper.makeBranch(server.serverName, serverRoot);			
-			serverList.add(server);
-			System.out.println(server.serverName);
-			} else errorMsgAddServer.setText("Duplicate server found, rename");
+	//Adds the server name to the server menu and adds the server-object to an array called "serverList"
+	private void addServerToList(ServerInfo server){		
+			serverList.add(server);	
+			serverListview.getItems().add(server.serverName);
 		}
 	
-	private boolean checkForDuplicate(ServerInfo server) {
-		boolean dupeCheck = false;
+	//Checks for any other server already added with the same server name
+	private boolean isNotDuplicate(ServerInfo server) {		
 		for (int i = 0; i < serverList.size(); i++)			
 			{				
-				ServerInfo user = serverList.get(i);
-				if (user.serverName.equals(server.serverName))
+				ServerInfo existingServer = serverList.get(i);
+				if (existingServer.serverName.equals(server.serverName))
 					{
-						dupeCheck = true;
+						return false;
 					}
 			}
-		return dupeCheck;
+		return true;
 	}
 	
 	//Sets up the server- and user options screen
@@ -253,7 +294,6 @@ public class LoginWindowController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
-		
 
 	}		
 	
@@ -267,9 +307,7 @@ public class LoginWindowController implements Initializable {
 	private void setupTreeItems() {
 		TreeItem<String> mainRoot, server, usersetup, looks;		
 		mainRoot = new TreeItem<String>("Connections");
-		treeView_login.setRoot(mainRoot);				
-		treeViewServers.setRoot(serverRoot);
-		treeViewServers.setShowRoot(false);
+		treeView_login.setRoot(mainRoot);
 		treeView_login.setShowRoot(false);
 		
 		usersetup = Helper.makeBranch("User info", mainRoot);
@@ -333,6 +371,35 @@ public class LoginWindowController implements Initializable {
 			realNameText.setText(globalUserInfo.getRealname());
 		}
 	}
+
+	private void editServer()
+		{
+			String selected = serverListview.getSelectionModel().getSelectedItem();
+			ServerInfo selectedServer = new ServerInfo();
+			System.out.println(selectedServer.serverName);
+			
+			for (ServerInfo serverInfo : serverList)
+				{
+					if (selected.equals(serverInfo.serverName)){
+						selectedServer.serverName = serverInfo.serverName;
+						selectedServer.serverAddress = serverInfo.serverAddress;
+						selectedServer.port = serverInfo.port;
+						System.out.println(serverInfo.serverName);
+						break;
+					}
+				}
+			System.out.println(selectedServer.serverName);
+			if (selected != null) {
+				hideAllForms();
+				addServerInfo.setVisible(true);
+				addServerName.setText(selectedServer.serverName);
+				System.out.println(selectedServer.serverName);
+				serverIpAdress.setText(selectedServer.serverAddress);
+				serverPort.setText(Integer.toString(selectedServer.port));
+				
+				
+			}else System.out.println("fel");
+		}
 
 }
 
