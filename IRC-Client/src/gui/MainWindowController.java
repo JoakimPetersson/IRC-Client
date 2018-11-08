@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -18,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.control.TreeItem;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import network.UserInfo;
@@ -37,10 +39,10 @@ public class MainWindowController implements Initializable {
 	 */
     
 	@FXML
-	private LoginWindowController login;
+	private SettingsWindowController loginWindowController;
 	
 	@FXML
-	private GridPane gridPane;	
+	private GridPane mainWindow;	
 	
     @FXML
     private Menu menu;
@@ -111,8 +113,31 @@ public class MainWindowController implements Initializable {
 	//Shows options for server- and user options when you click the "Connect"-button under "file"
 	@FXML
     void menu_connect_click(ActionEvent event) {
-		LoginWindowController loginWindow = new LoginWindowController();
-		loginWindow.Start(this);
+		Parent root;
+		
+		try {
+			root = FXMLLoader.load(getClass().getResource("SettingsWindow.fxml"));
+			Stage stage = new Stage();
+			stage.setTitle("Settings");
+			stage.setScene(new Scene(root, 450, 450));
+			stage.show();
+			/*
+			try {
+				grid = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));		
+			Stage stage = new Stage();
+			Scene scene = new Scene(grid);	
+			stage.setScene(scene);
+			stage.show();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}	
+			*/
+		}catch (IOException e) {
+			e.printStackTrace();
+		}	
+		
+		//LoginWindowController loginWindow = new LoginWindowController();
+		//loginWindow.Start(this);
     }
 	
 	// Adding text from the chat-text to the chat-window when you click the "send" button

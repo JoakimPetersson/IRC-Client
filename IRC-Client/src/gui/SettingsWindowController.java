@@ -1,24 +1,20 @@
 package gui;
-import java.io.IOException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import gui.Helper;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-
 
 //TODO Fix edit button on add-server window
 //TODO Finish the edit function
 
-public class LoginWindowController implements Initializable {
+public class SettingsWindowController implements Initializable {
 	
 	/****************************************************************************************
 	 * Properties
@@ -26,16 +22,17 @@ public class LoginWindowController implements Initializable {
 	 */	
 	
 	@FXML
-	private ServerListController serverListController;
+	private ServerListPaneController serverListPaneController;
 	
 	@FXML
-	private UserInfoController userInfoController;
+	private UserInfoPaneController userInfoPaneController;
 	
 	@FXML
 	private TreeView<String> treeView_login;
-	 
-		
-	 
+	
+	@FXML
+	private BorderPane settingsWindow;
+	
 	/****************************************************************************************
 	 * Events																				 
 	 ****************************************************************************************
@@ -48,19 +45,7 @@ public class LoginWindowController implements Initializable {
 	}
 	
 	//Sets up the server- and user options screen
-	public void Start(MainWindowController mainWindow) {
-		System.out.println(mainWindow);
-		BorderPane grid;
-		try {
-			grid = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));		
-		Stage stage = new Stage();
-		Scene scene = new Scene(grid);	
-		stage.setScene(scene);
-		stage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
-
+	public void Start() {		
 	}		
 	
 	//sets up the leftmost treeview and opens the selected options-form
@@ -88,19 +73,19 @@ public class LoginWindowController implements Initializable {
 			if (newValue == null) hideAllForms();				
 			if (newValue.getValue().equals("User info")) {
 				hideAllForms(); 
-				userInfoController.setVisible(true);
+				userInfoPaneController.setVisible(true);
 			}
 			if (newValue.getValue().equals("Server")) {
 				hideAllForms(); 
-				serverListController.setVisible(true);}
+				serverListPaneController.setVisible(true);}
 			if (newValue.getValue().equals("Appearance")) {hideAllForms();}
 		});		
 	}
 	
 	//Sets all forms to be invisible
-	private void hideAllForms() {
-		serverListController.setVisible(false);
-		userInfoController.setVisible(false);
+	public void hideAllForms() {
+		serverListPaneController.setVisible(false);
+		userInfoPaneController.setVisible(false);
 		//addServerInfo.setVisible(false);
 	}	
 }

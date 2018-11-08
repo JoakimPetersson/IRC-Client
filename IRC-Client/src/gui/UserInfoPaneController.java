@@ -11,10 +11,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import network.UserInfo;
 
-public class UserInfoController {
+public class UserInfoPaneController {
 	
 	 @FXML
-	 private GridPane userInfo;
+	 private GridPane userInfoPane;
 
 	 @FXML
 	 private TextField nickNameText;
@@ -112,7 +112,7 @@ public void setVisible(boolean bool) {
 		fillUserInfoFieldsFromPrefs();
 	}
 	
-	userInfo.setVisible(bool);
+	userInfoPane.setVisible(bool);
 }
 
 

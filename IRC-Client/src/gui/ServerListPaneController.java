@@ -16,7 +16,7 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.GridPane;
 import network.ServerInfo;
 
-public class ServerListController implements Initializable {
+public class ServerListPaneController implements Initializable {
 	 @FXML 
 	 private TextField addServerName;
 	
@@ -33,7 +33,7 @@ public class ServerListController implements Initializable {
 	 private TextField serverPort;
 	 
 	 @FXML
-	 private GridPane serverList;
+	 private GridPane serverListPane;
 	 
 	 @FXML
 	 private GridPane addServerInfo;
@@ -63,12 +63,14 @@ public class ServerListController implements Initializable {
 	 private ScrollPane serverScrollPane;
 		
 	 private ArrayList<ServerInfo> serverListArray = new ArrayList<>(); 
-	 
  
 	 //Hides all other forms and shows the "add-server form"
 	 @FXML
 	 void addServerBtn_Click(ActionEvent event) {
-		 addServerInfo.setVisible(true);
+		 //addServerInfo.setVisible(true);
+		 
+		 
+		 
 	 }
 	 
 		//Attempts to create the server based on the information filled out in the add-server form
@@ -99,7 +101,7 @@ public class ServerListController implements Initializable {
 						
 					} else { 
 						addServerToList(currentServer);
-						serverList.setVisible(true);
+						serverListPane.setVisible(true);
 						serverNameText.setText(null);
 						serverIpAdress.setText(null);
 						serverPort.setText(null);
@@ -216,7 +218,7 @@ public class ServerListController implements Initializable {
 		}
 
 		public void setVisible(boolean b) {
-			serverList.setVisible(b);
+			serverListPane.setVisible(b);
 		}
 	
 }

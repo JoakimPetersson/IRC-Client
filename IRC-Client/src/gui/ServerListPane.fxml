@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 	
-<GridPane fx:id="serverList" fx:controller="gui.ServerListController" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.191" layoutX="6.0" layoutY="1.0" prefHeight="400.0" prefWidth="474.0" visible="false">
+<GridPane fx:id="serverListPane" fx:controller="gui.ServerListPaneController" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.191" layoutX="6.0" layoutY="1.0" prefHeight="400.0" prefWidth="474.0" visible="false">
        <!-- 
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" prefWidth="100.0" />
