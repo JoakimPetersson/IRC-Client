@@ -7,13 +7,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import network.ServerInfo;
 
 public class AddServerWindowController {	
 	
 	@FXML
-	private BorderPane addServerWindow;
+	private GridPane addServerWindow;
+	
+	@FXML
+	private GridPane AddServerPane;
 	
 	@FXML
 	private Button addServerOKbtn;
@@ -62,6 +65,9 @@ public class AddServerWindowController {
 					throw new Exception();
 					
 				} else { 
+					PreferenceHandler prefs = new PreferenceHandler();
+					prefs.setServerInfo(currentServer);
+					
 					//addServerToList(currentServer);
 					serverNameText.setText(null);
 					serverIpAdress.setText(null);
