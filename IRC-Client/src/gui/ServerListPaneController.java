@@ -61,12 +61,17 @@ public class ServerListPaneController implements Initializable {
 
 	@FXML
 	private AddServerWindowController addServerWindow;
+
+	@FXML
+	private Button serverConnectBtn;
 	
 	private ObservableList<String> allServerNames;
-
-	// private ArrayList<ServerInfo> serverListArray = new ArrayList<>();
-
-	// Hides all other forms and shows the "add-server form"
+	
+	/**
+	 * 
+	 *	Events 
+	 *
+	 */
 	@FXML
 	void addServerBtn_Click(ActionEvent event) {
 		Parent root;
@@ -78,9 +83,40 @@ public class ServerListPaneController implements Initializable {
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	
+		}
+	}
+	
+	@FXML
+	void serverDeleteBtn_Click(ActionEvent event) {
+		removeSelectedItem();
 	}
 
+	void serverConnectBtn_Click(ActionEvent evetn) {
+		// TODO Close window
+		// TODO Add server to main window server list
+		// TODO Connect to the selected server
+		// TODO join all preselected channels and add them as tabs in the main window server list under the joined server
+		/*
+		 * 
+		 * This event should somehow pass the selected server name to the MainWindowController, and call some function there. And then close this window and let the
+		 * MainWindowController handle everything from there.
+		 * 
+		 * ServerInfo might need some new fields, like:
+		 * 		boolean connectOnStartup; - connect to this server when program starts 
+		 * 		
+		 * 		For much later:
+		 * 			ArrayList<String> joinChannelsOnConnect; - join these channels after connecting to the server
+		 * 			Fields that handle passwords and nickserv logins. I don't know how this works and need to read about it.
+		 * 			UserInfo CustomUserInfo; - Custom userinfo for the server in case you don't want to use the same info on all servers
+		 * 
+		 */
+	}
+
+	@FXML
+	void serverEditBtn_Click(ActionEvent event) {
+		// editServer();
+	}
+	
 	// Looks up what server is currently selected and removes it from the treeview
 	// Shows error-message if none is selected
 	private void removeSelectedItem() {
@@ -88,18 +124,78 @@ public class ServerListPaneController implements Initializable {
 		try {
 
 			ReadOnlyObjectProperty<String> name = serverListview.getSelectionModel().selectedItemProperty();
-			
+
 			System.out.println("REMOVED SERVER: " + name.get());
-			
+
 			PreferenceHandler prefs = new PreferenceHandler();
 			prefs.removeServer(name.get());
-			
+
 			serverListview.getItems().remove(selected);
 		} catch (NullPointerException e) {
 			errorMsgServer.setText("No server selected, no server deleted");
 		}
 	}
 
+	/*
+	 * 
+	 *	Other Methods
+	 * 
+	 */
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		serverListview.minHeightProperty().bind(serverScrollPane.heightProperty());
+		serverListview.maxWidthProperty().bind(serverScrollPane.widthProperty());
+		serverScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+
+		allServerNames = FXCollections.observableArrayList();
+
+		loadServerList();
+
+		Preferences prefs = Preferences.userRoot().node("serverInfo");
+
+		prefs.addPreferenceChangeListener(new PreferenceChangeListener() {
+
+			@Override
+			public void preferenceChange(PreferenceChangeEvent arg0) {
+				Gson gson = new Gson();
+				ServerInfo serverInfo = gson.fromJson(arg0.getNewValue(), ServerInfo.class);
+				allServerNames.add(serverInfo.serverName);
+			}
+
+		});
+
+		allServerNames.addListener(new ListChangeListener<String>() {
+			@Override
+			public void onChanged(Change arg0) {
+
+				// Using platform.runlater to avoid JavaFX thread error
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						serverListview.setItems(allServerNames);
+					}
+				});
+			}
+		});
+	}
+
+	private void loadServerList() {
+		PreferenceHandler prefs = new PreferenceHandler();
+		ArrayList<ServerInfo> allServerInfo = prefs.getAllServerInfo();
+
+		if (allServerInfo != null) {
+			for (ServerInfo info : allServerInfo) {
+				allServerNames.add(info.serverName);
+				serverListview.getItems().add(info.serverName);
+			}
+		}
+	}
+
+	public void setVisible(boolean b) {
+		serverListPane.setVisible(b);
+	}
+	
 	/**
 	 * private void editServer() { String selected =
 	 * serverListview.getSelectionModel().getSelectedItem(); ServerInfo
@@ -121,85 +217,4 @@ public class ServerListPaneController implements Initializable {
 	 * 
 	 * }else System.out.println("fel"); }
 	 */
-
-	// Adds the server put in in the "add-server"-form to the tree-item menu showing
-	// current servers
-	// Server-name cannot be null, empty or whitespace, shows an error-message when
-	// this is the case
-	// Hides all forms then shows the currently added servers
-
-	// removes the selected server or server-region when you click the delete-button
-	@FXML
-	void serverDeleteBtn_Click(ActionEvent event) {
-		removeSelectedItem();
-	}
-
-	// Takes the info from the "create user"-form and creates the user
-	// Adds the created user to the "createdUser-list"
-
-	// Takes the info from the create user-form and sets up a new user
-	// Username and/or nickname cannot be empty, whitespace or null, shows
-	// error-message on screen
-
-	@FXML
-	void serverEditBtn_Click(ActionEvent event) {
-		// editServer();
-	}
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		serverListview.minHeightProperty().bind(serverScrollPane.heightProperty());
-		serverListview.maxWidthProperty().bind(serverScrollPane.widthProperty());
-		serverScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		
-		allServerNames = FXCollections.observableArrayList();
-
-		loadServerList();
-		
-		
-		Preferences prefs = Preferences.userRoot().node("serverInfo");
-		
-		prefs.addPreferenceChangeListener(new PreferenceChangeListener() {
-
-			@Override
-			public void preferenceChange(PreferenceChangeEvent arg0) {				
-				Gson gson = new Gson();
-				ServerInfo serverInfo = gson.fromJson(arg0.getNewValue(), ServerInfo.class);
-				allServerNames.add(serverInfo.serverName);
-			}
-			
-		});
-		
-		
-		allServerNames.addListener(new ListChangeListener<String>() {
-			@Override
-			public void onChanged(Change arg0) {
-				
-				// Using platform.runlater to avoid JavaFX thread error
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						serverListview.setItems(allServerNames);
-					}
-				});
-			}
-		});
-	}
-
-	private void loadServerList() {
-		PreferenceHandler prefs = new PreferenceHandler();
-		ArrayList<ServerInfo> allServerInfo = prefs.getAllServerInfo();
-		
-		if(allServerInfo != null) {
-			for(ServerInfo info: allServerInfo) {
-				allServerNames.add(info.serverName);
-				serverListview.getItems().add(info.serverName);
-			}
-		}
-	}
-	
-	public void setVisible(boolean b) {
-		serverListPane.setVisible(b);
-	}
-
 }

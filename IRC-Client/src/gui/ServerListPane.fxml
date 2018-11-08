@@ -56,7 +56,7 @@
                         <Insets left="2.0" top="2.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="serverConnectBtn" mnemonicParsing="false" prefWidth="60.0" text="Connect">
+                  <Button fx:id="serverConnectBtn" mnemonicParsing="false" onAction="#serverConnectBtn_Click" prefWidth="60.0" text="Connect">
                      <VBox.margin>
                         <Insets left="2.0" top="2.0" />
                      </VBox.margin>

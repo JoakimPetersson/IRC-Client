@@ -86,7 +86,6 @@ public class SettingsWindowController implements Initializable {
 	public void hideAllForms() {
 		serverListPaneController.setVisible(false);
 		userInfoPaneController.setVisible(false);
-		//addServerInfo.setVisible(false);
 	}	
 }
 
