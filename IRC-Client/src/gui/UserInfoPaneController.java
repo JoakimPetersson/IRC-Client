@@ -61,7 +61,7 @@ public class UserInfoPaneController {
 				
 				//mainWindow.AddCreatedUser(createdUser);
 				// TODO Don't think we need this message
-				// createUserReporter.setText(createdUser.getUsername() + " Created");
+				createUserReporter.setText("User info has been saved!");
 				
 				
 				// By calling fillUserInfoFieldsFromPrefs() we make sure the user sees what the actual nickname will be when the forbidden characters are removed
@@ -85,41 +85,39 @@ public class UserInfoPaneController {
 		prefs.setGlobalUserInfo(createdUser);
 	}
 
-private UserInfo getGlobalUserInfo() {
-	PreferenceHandler prefs = new PreferenceHandler();
-	return prefs.getGlobalUserInfo();
-}
-
-private void fillUserInfoFieldsFromPrefs() {		
-	UserInfo globalUserInfo = getGlobalUserInfo();
-	
-	if(nickNameText == null) {
-		System.out.println("NickNameText is null");
+	private UserInfo getGlobalUserInfo() {
+		PreferenceHandler prefs = new PreferenceHandler();
+		return prefs.getGlobalUserInfo();
 	}
-	
-	if(globalUserInfo.getNickname() != null) {
-		nickNameText.setText(globalUserInfo.getNickname());
-		secondChoiceText.setText(globalUserInfo.getSecondchoice());
-		thirdChoiceText.setText(globalUserInfo.getThirdchoice());
-		userNameText.setText(globalUserInfo.getUsername());
-		realNameText.setText(globalUserInfo.getRealname());
+
+	private void fillUserInfoFieldsFromPrefs() {		
+		UserInfo globalUserInfo = getGlobalUserInfo();
+		
+		if(nickNameText == null) {
+			System.out.println("NickNameText is null");
+		}
+		
+		if(globalUserInfo.getNickname() != null) {
+			nickNameText.setText(globalUserInfo.getNickname());
+			secondChoiceText.setText(globalUserInfo.getSecondchoice());
+			thirdChoiceText.setText(globalUserInfo.getThirdchoice());
+			userNameText.setText(globalUserInfo.getUsername());
+			realNameText.setText(globalUserInfo.getRealname());
+		}
 	}
-}
 
 
-public void setVisible(boolean bool) {
-	if(bool) {
-		fillUserInfoFieldsFromPrefs();
+	public void setVisible(boolean bool) {
+		if(bool) {
+			fillUserInfoFieldsFromPrefs();
+		}
+		
+		userInfoPane.setVisible(bool);
 	}
-	
-	userInfoPane.setVisible(bool);
-}
 
 
-public void initialize(URL arg0, ResourceBundle arg1) {
-	// TODO Auto-generated method stub
-	
-}
-
-
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+		
+	}
 }
