@@ -4,7 +4,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
+import java.util.prefs.Preferences;
 
+import com.google.gson.Gson;
+
+import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -51,13 +61,14 @@ public class ServerListPaneController implements Initializable {
 
 	@FXML
 	private AddServerWindowController addServerWindow;
+	
+	private ObservableList<String> allServerNames;
 
 	// private ArrayList<ServerInfo> serverListArray = new ArrayList<>();
 
 	// Hides all other forms and shows the "add-server form"
 	@FXML
 	void addServerBtn_Click(ActionEvent event) {
-
 		Parent root;
 		try {
 			root = FXMLLoader.load(getClass().getResource("AddServerWindow.fxml"));
@@ -67,12 +78,7 @@ public class ServerListPaneController implements Initializable {
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-
-		// addServerInfo.setVisible(true);
-
-		// Set up addServerWindow and pass serverListArray to it
-
+		}	
 	}
 
 	// Looks up what server is currently selected and removes it from the treeview
@@ -80,6 +86,14 @@ public class ServerListPaneController implements Initializable {
 	private void removeSelectedItem() {
 		String selected = serverListview.getSelectionModel().getSelectedItem();
 		try {
+
+			ReadOnlyObjectProperty<String> name = serverListview.getSelectionModel().selectedItemProperty();
+			
+			System.out.println("REMOVED SERVER: " + name.get());
+			
+			PreferenceHandler prefs = new PreferenceHandler();
+			prefs.removeServer(name.get());
+			
 			serverListview.getItems().remove(selected);
 		} catch (NullPointerException e) {
 			errorMsgServer.setText("No server selected, no server deleted");
@@ -137,9 +151,53 @@ public class ServerListPaneController implements Initializable {
 		serverListview.minHeightProperty().bind(serverScrollPane.heightProperty());
 		serverListview.maxWidthProperty().bind(serverScrollPane.widthProperty());
 		serverScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		
+		allServerNames = FXCollections.observableArrayList();
 
+		loadServerList();
+		
+		
+		Preferences prefs = Preferences.userRoot().node("serverInfo");
+		
+		prefs.addPreferenceChangeListener(new PreferenceChangeListener() {
+
+			@Override
+			public void preferenceChange(PreferenceChangeEvent arg0) {				
+				Gson gson = new Gson();
+				ServerInfo serverInfo = gson.fromJson(arg0.getNewValue(), ServerInfo.class);
+				allServerNames.add(serverInfo.serverName);
+			}
+			
+		});
+		
+		
+		allServerNames.addListener(new ListChangeListener<String>() {
+			@Override
+			public void onChanged(Change arg0) {
+				
+				// Using platform.runlater to avoid JavaFX thread error
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						serverListview.setItems(allServerNames);
+					}
+				});
+			}
+		});
 	}
 
+	private void loadServerList() {
+		PreferenceHandler prefs = new PreferenceHandler();
+		ArrayList<ServerInfo> allServerInfo = prefs.getAllServerInfo();
+		
+		if(allServerInfo != null) {
+			for(ServerInfo info: allServerInfo) {
+				allServerNames.add(info.serverName);
+				serverListview.getItems().add(info.serverName);
+			}
+		}
+	}
+	
 	public void setVisible(boolean b) {
 		serverListPane.setVisible(b);
 	}

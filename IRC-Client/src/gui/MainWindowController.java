@@ -1,4 +1,5 @@
 package gui;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,92 +30,89 @@ import network.UserInfo;
 //TODO remake the tabs into treeitems for chanels
 //TODO "Save state" for chanels and such
 
-
-public class MainWindowController implements Initializable {	
-	
+public class MainWindowController implements Initializable {
 
 	/******************************************************************************************
 	 * Properties
 	 ******************************************************************************************
 	 */
-    
+
 	@FXML
 	private SettingsWindowController loginWindowController;
-	
+
 	@FXML
-	private GridPane mainWindow;	
-	
-    @FXML
-    private Menu menu;
-    
-    @FXML
-    private MenuItem menu_close;
-    
-    @FXML
-    private TreeView<String> treeview_main;  
-    
-    @FXML
-    private Button sendBtn;
-    
-    @FXML
-    private Button addUserPh;
-    
-    @FXML
-    private TextField chatTextIn;
-    
-    @FXML
-    private ScrollPane channelUserListScrollPane;    
-    
-    private ArrayList<UserInfo> createdUsers = new ArrayList<UserInfo>();    
-    public ArrayList<UserInfo> GetCreatedUsers()
-		{
-				return createdUsers;
-		}
+	private GridPane mainWindow;
 
-	public void AddCreatedUser(UserInfo userToAdd)
-		{
-				createdUsers.add(userToAdd);
-		}
-	
+	@FXML
+	private Menu menu;
+
+	@FXML
+	private MenuItem menu_close;
+
+	@FXML
+	private TreeView<String> treeview_main;
+
+	@FXML
+	private Button sendBtn;
+
+	@FXML
+	private Button addUserPh;
+
+	@FXML
+	private TextField chatTextIn;
+
+	@FXML
+	private ScrollPane channelUserListScrollPane;
+
+	private ArrayList<UserInfo> createdUsers = new ArrayList<UserInfo>();
+
+	public ArrayList<UserInfo> GetCreatedUsers() {
+		return createdUsers;
+	}
+
+	public void AddCreatedUser(UserInfo userToAdd) {
+		createdUsers.add(userToAdd);
+	}
+
 	private int fontSize;
-	
-	public int getFontSize()
-		{
-				return fontSize;
-		}
 
-	public void setFontSize(int fontSize)
-		{
-				this.fontSize = fontSize;
-		}
-    
-    /******************************************************************************************
-     * Events
-     ******************************************************************************************
-     */
-    
-    //Creates a treeview on the left side, showing the currently connected servers
+	public int getFontSize() {
+		return fontSize;
+	}
+
+	public void setFontSize(int fontSize) {
+		this.fontSize = fontSize;
+	}
+
+	/******************************************************************************************
+	 * Events
+	 ******************************************************************************************
+	 */
+
+	// Creates a treeview on the left side, showing the currently connected servers
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		CreateTree();		
-		
+		CreateTree();
+
 		ListView<String> chanelUserList = new ListView<String>();
 		channelUserListScrollPane.setContent(chanelUserList);
 		chanelUserList.prefWidthProperty().bind(channelUserListScrollPane.widthProperty());
-		chanelUserList.minHeightProperty().bind(channelUserListScrollPane.heightProperty());		
-	}		
+		chanelUserList.minHeightProperty().bind(channelUserListScrollPane.heightProperty());
+	}
 
-	//Shuts down the app when you click the "close" button on the main-menu under "file"
+	// Shuts down the app when you click the "close" button on the main-menu under
+	// "file"
 	@FXML
-    void menu_close_click(ActionEvent event) {
+	void menu_close_click(ActionEvent event) {
 		Platform.exit();
-    }
-	
-	//Shows options for server- and user options when you click the "Connect"-button under "file"
+	}
+
+	// Shows options for server- and user options when you click the
+	// "Connect"-button under "file"
 	@FXML
-    void menu_connect_click(ActionEvent event) {
+	void menu_connect_click(ActionEvent event) {
 		Parent root;
-		
+
 		try {
 			root = FXMLLoader.load(getClass().getResource("SettingsWindow.fxml"));
 			Stage stage = new Stage();
@@ -122,87 +120,87 @@ public class MainWindowController implements Initializable {
 			stage.setScene(new Scene(root, 450, 450));
 			stage.show();
 			/*
-			try {
-				grid = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));		
-			Stage stage = new Stage();
-			Scene scene = new Scene(grid);	
-			stage.setScene(scene);
-			stage.show();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}	
-			*/
-		}catch (IOException e) {
+			 * try { grid = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));
+			 * Stage stage = new Stage(); Scene scene = new Scene(grid);
+			 * stage.setScene(scene); stage.show(); } catch (IOException e) {
+			 * e.printStackTrace(); }
+			 */
+		} catch (IOException e) {
 			e.printStackTrace();
-		}	
-		
-		//LoginWindowController loginWindow = new LoginWindowController();
-		//loginWindow.Start(this);
-    }
-	
-	// Adding text from the chat-text to the chat-window when you click the "send" button
+		}
+
+		// LoginWindowController loginWindow = new LoginWindowController();
+		// loginWindow.Start(this);
+	}
+
+	// Adding text from the chat-text to the chat-window when you click the "send"
+	// button
 	@FXML
-    void sendBtn_Click(ActionEvent event) {	
+	void sendBtn_Click(ActionEvent event) {
 		sendChatMessage();
-    }
-	
-	//Sends the content of the chat-text to the chat-window when you press the enter-key
+	}
+
+	// Sends the content of the chat-text to the chat-window when you press the
+	// enter-key
 	@FXML
-    void chatText_OnKeyDown(KeyEvent event) {
+	void chatText_OnKeyDown(KeyEvent event) {
 		if (event.getCode().toString().equals("ENTER")) {
 			sendChatMessage();
 		}
-    }	
-	
-    @FXML
-    void addUserPh_Click(ActionEvent event) {
-    	ListView<String> channelUserList = (ListView<String>) channelUserListScrollPane.getContent();
-    	channelUserList.getItems().add("User");
-    }
-	
+	}
+
+	@FXML
+	void addUserPh_Click(ActionEvent event) {
+		ListView<String> channelUserList = (ListView<String>) channelUserListScrollPane.getContent();
+		channelUserList.getItems().add("User");
+	}
+
 	/******************************************************************************************
 	 * Methods
 	 ******************************************************************************************
 	 */
-	
-	//Takes the text from the chat-text and adds to the chat-window, if null, empty or whitespace nothing happens 
+
+	// Takes the text from the chat-text and adds to the chat-window, if null, empty
+	// or whitespace nothing happens
 	private void sendChatMessage() {
 		try {
-			if (Helper.isEmptyOrNull(chatTextIn.getText())) throw new NullPointerException();
-		//Label currentLabel = getActiveLabel();
-		//currentLabel.setText(currentLabel.getText() + chatText.getText().toString() + "\n");
-		chatTextIn.setText(null);
+			if (Helper.isEmptyOrNull(chatTextIn.getText()))
+				throw new NullPointerException();
+			// Label currentLabel = getActiveLabel();
+			// currentLabel.setText(currentLabel.getText() + chatText.getText().toString() +
+			// "\n");
+			chatTextIn.setText(null);
 		} catch (NullPointerException e) {
 			// TODO: handle exception
 		}
 	}
-	
-	//sets the "currentLabel" variable to the currently active chat-window
-	/*private Label getActiveLabel() {
-		// Getting The Anchor-pane in the active tab
-		AnchorPane currentPane = ((AnchorPane)chatTabs.getSelectionModel().getSelectedItem().getContent());
-		
-		// Getting The Scroll-pane in the active tab
-		ScrollPane currentScroll = (ScrollPane)currentPane.getChildren().get(0);
-				
-		// Getting The Label in the active tab
-		Label currentLabel = (Label)currentScroll.getContent();
-		return currentLabel;
-	}*/
-	
-	//sets up the treeitem-menu to the left of the app
-	private void CreateTree() {		
-	    TreeItem<String> serverHeader = new TreeItem<>("Connected servers");	 	
-	    TreeItem<String> server = new TreeItem<>("Dudenet");
-	    TreeItem<String> channel = Helper.makeBranch("#Buffbois", server);
-	    treeview_main.setRoot(serverHeader);
-	    treeview_main.setShowRoot(false);
-	    serverHeader.getChildren().add(server);		
-	}	
-	
+
+	// sets the "currentLabel" variable to the currently active chat-window
+	/*
+	 * private Label getActiveLabel() { // Getting The Anchor-pane in the active tab
+	 * AnchorPane currentPane =
+	 * ((AnchorPane)chatTabs.getSelectionModel().getSelectedItem().getContent());
+	 * 
+	 * // Getting The Scroll-pane in the active tab ScrollPane currentScroll =
+	 * (ScrollPane)currentPane.getChildren().get(0);
+	 * 
+	 * // Getting The Label in the active tab Label currentLabel =
+	 * (Label)currentScroll.getContent(); return currentLabel; }
+	 */
+
+	// sets up the treeitem-menu to the left of the app
+	private void CreateTree() {
+		TreeItem<String> serverHeader = new TreeItem<>("Connected servers");
+		TreeItem<String> server = new TreeItem<>("Dudenet");
+		TreeItem<String> channel = Helper.makeBranch("#Buffbois", server);
+		treeview_main.setRoot(serverHeader);
+		treeview_main.setShowRoot(false);
+		serverHeader.getChildren().add(server);
+	}
+
 	public void start(Stage stage) throws IOException {
-		GridPane grid = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));		
-		Scene scene = new Scene(grid);	
+		GridPane grid = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
+		Scene scene = new Scene(grid);
 		stage.setScene(scene);
 		stage.show();
 	}
