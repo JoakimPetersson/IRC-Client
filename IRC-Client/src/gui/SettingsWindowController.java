@@ -33,6 +33,7 @@ public class SettingsWindowController implements Initializable {
 	@FXML
 	private BorderPane settingsWindow;
 	
+	
 	/****************************************************************************************
 	 * Events																				 
 	 ****************************************************************************************
@@ -46,6 +47,7 @@ public class SettingsWindowController implements Initializable {
 	
 	//Sets up the server- and user options screen
 	public void Start() {		
+
 	}		
 	
 	//sets up the leftmost treeview and opens the selected options-form

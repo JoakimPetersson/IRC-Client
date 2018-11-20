@@ -38,7 +38,7 @@ public class MainWindowController implements Initializable {
 	 */
 
 	@FXML
-	private SettingsWindowController loginWindowController;
+	private SettingsWindowController settingsWindowController;
 
 	@FXML
 	private GridPane mainWindow;
@@ -83,6 +83,8 @@ public class MainWindowController implements Initializable {
 	public void setFontSize(int fontSize) {
 		this.fontSize = fontSize;
 	}
+	
+	public TreeItem<String> serverHeader;
 
 	/******************************************************************************************
 	 * Events
@@ -114,11 +116,17 @@ public class MainWindowController implements Initializable {
 		Parent root;
 
 		try {
-			root = FXMLLoader.load(getClass().getResource("SettingsWindow.fxml"));
+					
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("SettingsWindow.fxml"));
+			root = loader.load();
 			Stage stage = new Stage();
 			stage.setTitle("Settings");
 			stage.setScene(new Scene(root, 450, 450));
 			stage.show();
+			
+			System.out.println(loader.getController().toString());
+			System.out.println(this.toString());
+		
 			/*
 			 * try { grid = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));
 			 * Stage stage = new Stage(); Scene scene = new Scene(grid);
@@ -128,9 +136,7 @@ public class MainWindowController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		// LoginWindowController loginWindow = new LoginWindowController();
-		// loginWindow.Start(this);
+		
 	}
 
 	// Adding text from the chat-text to the chat-window when you click the "send"
@@ -198,10 +204,31 @@ public class MainWindowController implements Initializable {
 		serverHeader.getChildren().add(server);
 	}
 
+
+
+	
+	public void connectToServer() {
+		// Get serverinfo
+		// open new treethingy with tab in focus
+		// Connect to server (Store connectionhandlers in a collection?)
+		
+		
+		TreeItem<String> server = new TreeItem<>("Florp");
+		TreeItem<String> channel = Helper.makeBranch("#Buffbois", server);
+		treeview_main.setRoot(serverHeader);
+		treeview_main.setShowRoot(false);
+		serverHeader.getChildren().add(server);
+		
+		
+		
+	}
+	
+	
 	public void start(Stage stage) throws IOException {
 		GridPane grid = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
 		Scene scene = new Scene(grid);
 		stage.setScene(scene);
 		stage.show();
+		
 	}
 }

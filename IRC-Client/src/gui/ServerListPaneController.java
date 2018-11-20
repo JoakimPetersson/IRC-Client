@@ -90,8 +90,12 @@ public class ServerListPaneController implements Initializable {
 	void serverDeleteBtn_Click(ActionEvent event) {
 		removeSelectedItem();
 	}
-
-	void serverConnectBtn_Click(ActionEvent evetn) {
+	
+	@FXML
+	void serverConnectBtn_Click(ActionEvent event) {
+		
+		
+		
 		// TODO Close window
 		// TODO Add server to main window server list
 		// TODO Connect to the selected server
