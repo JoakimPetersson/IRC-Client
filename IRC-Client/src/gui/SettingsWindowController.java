@@ -1,12 +1,17 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.google.common.eventbus.EventBus;
 
 import gui.Helper;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
@@ -33,6 +38,8 @@ public class SettingsWindowController implements Initializable {
 	@FXML
 	private BorderPane settingsWindow;
 	
+	private EventBus eventBus;
+	
 	
 	/****************************************************************************************
 	 * Events																				 
@@ -45,6 +52,7 @@ public class SettingsWindowController implements Initializable {
 		createTree();
 	}
 	
+
 	//Sets up the server- and user options screen
 	public void Start() {		
 

@@ -29,7 +29,7 @@ import javafx.stage.Stage;
 		
 		System.out.println(loader.getController().toString());
 		System.out.println(this.toString());
-		*/
+		**/
 		
 		mainWindow.start(stage);
 	}	

@@ -8,6 +8,7 @@ import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 import java.util.prefs.Preferences;
 
+import com.google.common.eventbus.EventBus;
 import com.google.gson.Gson;
 
 import javafx.application.Platform;
@@ -67,6 +68,8 @@ public class ServerListPaneController implements Initializable {
 	
 	private ObservableList<String> allServerNames;
 	
+	private ConnectEventBus connectEventBus;
+	
 	/**
 	 * 
 	 *	Events 
@@ -93,8 +96,7 @@ public class ServerListPaneController implements Initializable {
 	
 	@FXML
 	void serverConnectBtn_Click(ActionEvent event) {
-		
-		
+		connectEventBus.postConnectEvent("Test");
 		
 		// TODO Close window
 		// TODO Add server to main window server list
@@ -182,6 +184,8 @@ public class ServerListPaneController implements Initializable {
 				});
 			}
 		});
+		
+		connectEventBus = ConnectEventBus.getInstance();
 	}
 
 	private void loadServerList() {

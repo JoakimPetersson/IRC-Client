@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import com.google.common.eventbus.AsyncEventBus;
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,8 +35,10 @@ import network.UserInfo;
 //TODO remake the tabs into treeitems for chanels
 //TODO "Save state" for chanels and such
 
-public class MainWindowController implements Initializable {
 
+
+public class MainWindowController implements Initializable {
+	
 	/******************************************************************************************
 	 * Properties
 	 ******************************************************************************************
@@ -63,7 +70,7 @@ public class MainWindowController implements Initializable {
 
 	@FXML
 	private ScrollPane channelUserListScrollPane;
-
+	
 	private ArrayList<UserInfo> createdUsers = new ArrayList<UserInfo>();
 
 	public ArrayList<UserInfo> GetCreatedUsers() {
@@ -85,6 +92,8 @@ public class MainWindowController implements Initializable {
 	}
 	
 	public TreeItem<String> serverHeader;
+	
+	private ConnectEventBus connectEventBus;
 
 	/******************************************************************************************
 	 * Events
@@ -100,6 +109,16 @@ public class MainWindowController implements Initializable {
 		channelUserListScrollPane.setContent(chanelUserList);
 		chanelUserList.prefWidthProperty().bind(channelUserListScrollPane.widthProperty());
 		chanelUserList.minHeightProperty().bind(channelUserListScrollPane.heightProperty());
+		
+		connectEventBus = ConnectEventBus.getInstance();
+		EventBus eBus = connectEventBus.getEventBus();
+		eBus.register(new Object() {
+			@Subscribe
+			void test(String test) {
+				System.out.println("Fucking sweet!" + test);
+			}
+		});
+		
 	}
 
 	// Shuts down the app when you click the "close" button on the main-menu under
@@ -113,20 +132,18 @@ public class MainWindowController implements Initializable {
 	// "Connect"-button under "file"
 	@FXML
 	void menu_connect_click(ActionEvent event) {
-		Parent root;
 
 		try {
 					
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("SettingsWindow.fxml"));
-			root = loader.load();
+			Parent root = loader.load();
 			Stage stage = new Stage();
 			stage.setTitle("Settings");
 			stage.setScene(new Scene(root, 450, 450));
 			stage.show();
 			
-			System.out.println(loader.getController().toString());
-			System.out.println(this.toString());
-		
+			// More setup in settings
+			
 			/*
 			 * try { grid = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));
 			 * Stage stage = new Stage(); Scene scene = new Scene(grid);
@@ -229,6 +246,5 @@ public class MainWindowController implements Initializable {
 		Scene scene = new Scene(grid);
 		stage.setScene(scene);
 		stage.show();
-		
 	}
 }
