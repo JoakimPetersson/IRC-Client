@@ -8,7 +8,6 @@ import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 import java.util.prefs.Preferences;
 
-import com.google.common.eventbus.EventBus;
 import com.google.gson.Gson;
 
 import javafx.application.Platform;
@@ -79,7 +78,7 @@ public class ServerListPaneController implements Initializable {
 	void addServerBtn_Click(ActionEvent event) {
 		Parent root;
 		try {
-			root = FXMLLoader.load(getClass().getResource("AddServerWindow.fxml"));
+			root = FXMLLoader.load(getClass().getResource("fxml/AddServerWindow.fxml"));
 			Stage stage = new Stage();
 			stage.setTitle("Add Server");
 			stage.setScene(new Scene(root, 450, 450));
@@ -96,26 +95,9 @@ public class ServerListPaneController implements Initializable {
 	
 	@FXML
 	void serverConnectBtn_Click(ActionEvent event) {
-		connectEventBus.postConnectEvent("Test");
-		
+		ReadOnlyObjectProperty<String> name = serverListview.getSelectionModel().selectedItemProperty();
+		connectEventBus.postConnectEvent(name.get());
 		// TODO Close window
-		// TODO Add server to main window server list
-		// TODO Connect to the selected server
-		// TODO join all preselected channels and add them as tabs in the main window server list under the joined server
-		/*
-		 * 
-		 * This event should somehow pass the selected server name to the MainWindowController, and call some function there. And then close this window and let the
-		 * MainWindowController handle everything from there.
-		 * 
-		 * ServerInfo might need some new fields, like:
-		 * 		boolean connectOnStartup; - connect to this server when program starts 
-		 * 		
-		 * 		For much later:
-		 * 			ArrayList<String> joinChannelsOnConnect; - join these channels after connecting to the server
-		 * 			Fields that handle passwords and nickserv logins. I don't know how this works and need to read about it.
-		 * 			UserInfo CustomUserInfo; - Custom userinfo for the server in case you don't want to use the same info on all servers
-		 * 
-		 */
 	}
 
 	@FXML
@@ -124,7 +106,7 @@ public class ServerListPaneController implements Initializable {
 	}
 	
 	// Looks up what server is currently selected and removes it from the treeview
-	// Shows error-message if none is selected
+	// Shows error-message if none is selected FIXME: Does not have to show error message.
 	private void removeSelectedItem() {
 		String selected = serverListview.getSelectionModel().getSelectedItem();
 		try {

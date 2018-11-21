@@ -49,12 +49,12 @@ public class UserInfoPaneController {
 			{
 				setGlobalUserInfo();
 				
-				if (Helper.isEmptyOrNull(nickNameText.getText().toString())) {
+				if (isEmptyOrNull(nickNameText.getText().toString())) {
 					createUserErrorMsg = "Nickname cannot be empty";
 					throw new NullPointerException();
 				}
 				
-				else if (Helper.isEmptyOrNull(userNameText.getText())){
+				else if (isEmptyOrNull(userNameText.getText())){
 					createUserErrorMsg = "Username cannot be empty";
 					throw new NullPointerException();
 				}
@@ -119,5 +119,9 @@ public class UserInfoPaneController {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public static boolean isEmptyOrNull(final String s) {
+		return s == null || s.trim().isEmpty();		
 	}
 }

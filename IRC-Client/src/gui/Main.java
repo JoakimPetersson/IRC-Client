@@ -1,11 +1,23 @@
 package gui;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+/**
+ * Features to add:
+ * 		Chat logger / Saving previous channel and server activity
+ * 		Connect to servers that require a password
+ * 		Fullscreen mode
+ * 		Connect to channels on startup
+ * 		React to /join and similar commands by opening/closing treeitems
+ * 
+ * Feature to skip:
+ * 		bots/ plugins /scripts (DO NOT DO THIS! way to big project)
+ * 		Sound
+ * 		advanced gui customization and preferences
+ * 		file transfer and network settings
+ */
 
+
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 	public class Main extends Application {
 		public Stage currentMainStage;
@@ -16,21 +28,7 @@ import javafx.stage.Stage;
 	
 	@Override
 	public void start (Stage stage) throws Exception {		
-		MainWindowController mainWindow = new MainWindowController();
-		
-		/**
-		Parent root;
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
-		root = loader.load();
-		//Stage stage = new Stage();
-		stage.setTitle("Settings");
-		stage.setScene(new Scene(root, 450, 450));
-		stage.show();
-		
-		System.out.println(loader.getController().toString());
-		System.out.println(this.toString());
-		**/
-		
+		MainWindowController mainWindow = new MainWindowController();	
 		mainWindow.start(stage);
 	}	
 	

@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 import com.google.common.eventbus.EventBus;
 
 import gui.Helper;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -71,9 +70,9 @@ public class SettingsWindowController implements Initializable {
 		treeView_login.setRoot(mainRoot);
 		treeView_login.setShowRoot(false);
 		
-		usersetup = Helper.makeBranch("User info", mainRoot);
-		server = Helper.makeBranch("Server", mainRoot);
-		looks = Helper.makeBranch("Appearance", mainRoot);
+		usersetup = makeBranch("User info", mainRoot);
+		server = makeBranch("Server", mainRoot);
+		looks = makeBranch("Appearance", mainRoot);
 		
 		
 	}	
@@ -97,6 +96,12 @@ public class SettingsWindowController implements Initializable {
 		serverListPaneController.setVisible(false);
 		userInfoPaneController.setVisible(false);
 	}	
+	
+	public static TreeItem<String> makeBranch(String title, TreeItem<String> parent){
+		TreeItem<String> item = new TreeItem<String>(title);
+		parent.getChildren().add(item);
+		return item;
+	}
 }
 
 

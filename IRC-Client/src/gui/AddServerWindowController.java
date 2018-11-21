@@ -44,15 +44,15 @@ public class AddServerWindowController {
 	private void CreateServer() {
 		String errorMessage = null;
 		try {
-			if (Helper.isEmptyOrNull(serverNameText.getText())) {
+			if (isEmptyOrNull(serverNameText.getText())) {
 				errorMessage = "Server name cannot be empty";
 				throw new Exception();
 
-			} else if (Helper.isEmptyOrNull(serverIpAdress.getText())) {
+			} else if (isEmptyOrNull(serverIpAdress.getText())) {
 				errorMessage = "Server adress cannot be empty";
 				throw new Exception();
 
-			} else if (Helper.isEmptyOrNull(serverPort.getText())) {
+			} else if (isEmptyOrNull(serverPort.getText())) {
 				errorMessage = "Server port cannot be empty";
 				throw new Exception();
 			} else {
@@ -109,6 +109,10 @@ public class AddServerWindowController {
 	@FXML
 	void addServerOKbtn_Click(ActionEvent event) {
 		CreateServer();
+	}
+	
+	public static boolean isEmptyOrNull(final String s) {
+		return s == null || s.trim().isEmpty();		
 	}
 
 }

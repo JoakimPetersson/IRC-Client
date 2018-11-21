@@ -32,10 +32,8 @@ import network.UserInfo;
 
 //TODO add hover transparency on main menu
 //TODO add option to increase/decrease the fontsize
-//TODO remake the tabs into treeitems for chanels
+//TODO remake the tabs into treeitems for channels
 //TODO "Save state" for chanels and such
-
-
 
 public class MainWindowController implements Initializable {
 	
@@ -114,8 +112,8 @@ public class MainWindowController implements Initializable {
 		EventBus eBus = connectEventBus.getEventBus();
 		eBus.register(new Object() {
 			@Subscribe
-			void test(String test) {
-				System.out.println("Fucking sweet!" + test);
+			void handleConnectEvent(String serverName) {
+				connectToServer(serverName);
 			}
 		});
 		
@@ -128,32 +126,19 @@ public class MainWindowController implements Initializable {
 		Platform.exit();
 	}
 
-	// Shows options for server- and user options when you click the
-	// "Connect"-button under "file"
+	// FIXME Change name of this action to something more relevant
 	@FXML
 	void menu_connect_click(ActionEvent event) {
-
-		try {
-					
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("SettingsWindow.fxml"));
+		try {	
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/SettingsWindow.fxml"));
 			Parent root = loader.load();
 			Stage stage = new Stage();
 			stage.setTitle("Settings");
 			stage.setScene(new Scene(root, 450, 450));
 			stage.show();
-			
-			// More setup in settings
-			
-			/*
-			 * try { grid = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));
-			 * Stage stage = new Stage(); Scene scene = new Scene(grid);
-			 * stage.setScene(scene); stage.show(); } catch (IOException e) {
-			 * e.printStackTrace(); }
-			 */
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	// Adding text from the chat-text to the chat-window when you click the "send"
@@ -172,6 +157,7 @@ public class MainWindowController implements Initializable {
 		}
 	}
 
+	// FIXME adduser button is not needed, BUT the function can be used later to add users from the server userlist
 	@FXML
 	void addUserPh_Click(ActionEvent event) {
 		ListView<String> channelUserList = (ListView<String>) channelUserListScrollPane.getContent();
@@ -187,7 +173,7 @@ public class MainWindowController implements Initializable {
 	// or whitespace nothing happens
 	private void sendChatMessage() {
 		try {
-			if (Helper.isEmptyOrNull(chatTextIn.getText()))
+			if (isEmptyOrNull(chatTextIn.getText()))
 				throw new NullPointerException();
 			// Label currentLabel = getActiveLabel();
 			// currentLabel.setText(currentLabel.getText() + chatText.getText().toString() +
@@ -198,53 +184,44 @@ public class MainWindowController implements Initializable {
 		}
 	}
 
-	// sets the "currentLabel" variable to the currently active chat-window
-	/*
-	 * private Label getActiveLabel() { // Getting The Anchor-pane in the active tab
-	 * AnchorPane currentPane =
-	 * ((AnchorPane)chatTabs.getSelectionModel().getSelectedItem().getContent());
-	 * 
-	 * // Getting The Scroll-pane in the active tab ScrollPane currentScroll =
-	 * (ScrollPane)currentPane.getChildren().get(0);
-	 * 
-	 * // Getting The Label in the active tab Label currentLabel =
-	 * (Label)currentScroll.getContent(); return currentLabel; }
-	 */
-
 	// sets up the treeitem-menu to the left of the app
 	private void CreateTree() {
 		TreeItem<String> serverHeader = new TreeItem<>("Connected servers");
 		TreeItem<String> server = new TreeItem<>("Dudenet");
-		TreeItem<String> channel = Helper.makeBranch("#Buffbois", server);
+		TreeItem<String> channel = makeBranch("#Buffbois", server);
 		treeview_main.setRoot(serverHeader);
 		treeview_main.setShowRoot(false);
 		serverHeader.getChildren().add(server);
 	}
-
-
-
 	
-	public void connectToServer() {
+	// TODO This function should handle the visual parts of the program, the actual connection should be decouple as much as possible
+	public void connectToServer(String serverName) {
 		// Get serverinfo
 		// open new treethingy with tab in focus
 		// Connect to server (Store connectionhandlers in a collection?)
 		
-		
-		TreeItem<String> server = new TreeItem<>("Florp");
-		TreeItem<String> channel = Helper.makeBranch("#Buffbois", server);
+		TreeItem<String> serverHeader = new TreeItem<>("Connected servers");
+		TreeItem<String> server = new TreeItem<>(serverName);
+		//TreeItem<String> channel = Helper.makeBranch("#Buffbois", server);
 		treeview_main.setRoot(serverHeader);
 		treeview_main.setShowRoot(false);
-		serverHeader.getChildren().add(server);
-		
-		
-		
+		serverHeader.getChildren().add(server);	
 	}
 	
-	
 	public void start(Stage stage) throws IOException {
-		GridPane grid = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
+		GridPane grid = FXMLLoader.load(getClass().getResource("fxml/MainWindow.fxml"));
 		Scene scene = new Scene(grid);
 		stage.setScene(scene);
 		stage.show();
+	}
+	
+	public static TreeItem<String> makeBranch(String title, TreeItem<String> parent){
+		TreeItem<String> item = new TreeItem<String>(title);
+		parent.getChildren().add(item);
+		return item;
+}
+	
+	public static boolean isEmptyOrNull(final String s) {
+		return s == null || s.trim().isEmpty();		
 	}
 }
