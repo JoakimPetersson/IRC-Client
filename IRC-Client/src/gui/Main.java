@@ -7,6 +7,8 @@ package gui;
  * 		Fullscreen mode
  * 		Connect to channels on startup
  * 		React to /join and similar commands by opening/closing treeitems
+ * 		
+ * 		Add details to serverlist to show which channels are connected and which are offline
  * 
  * Feature to skip:
  * 		bots/ plugins /scripts (DO NOT DO THIS! way to big project)

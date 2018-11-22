@@ -186,12 +186,9 @@ public class MainWindowController implements Initializable {
 
 	// sets up the treeitem-menu to the left of the app
 	private void CreateTree() {
-		TreeItem<String> serverHeader = new TreeItem<>("Connected servers");
-		TreeItem<String> server = new TreeItem<>("Dudenet");
-		TreeItem<String> channel = makeBranch("#Buffbois", server);
+		serverHeader = new TreeItem<>("Connected servers");
 		treeview_main.setRoot(serverHeader);
 		treeview_main.setShowRoot(false);
-		serverHeader.getChildren().add(server);
 	}
 	
 	// TODO This function should handle the visual parts of the program, the actual connection should be decouple as much as possible
@@ -200,7 +197,7 @@ public class MainWindowController implements Initializable {
 		// open new treethingy with tab in focus
 		// Connect to server (Store connectionhandlers in a collection?)
 		
-		TreeItem<String> serverHeader = new TreeItem<>("Connected servers");
+		//TreeItem<String> serverHeader = new TreeItem<>("Connected servers");
 		TreeItem<String> server = new TreeItem<>(serverName);
 		//TreeItem<String> channel = Helper.makeBranch("#Buffbois", server);
 		treeview_main.setRoot(serverHeader);
